@@ -9,7 +9,8 @@ abstract public class Piece {
         this.type = type;
     }
 
-    abstract boolean isValid(int row, int col);
+    abstract int[] isValidMove(int row, int col, PieceColor color, boolean captures);
+    abstract int[] isValidCapture(int row, int col, PieceColor color);
 
     PieceColor determineColor(int color) {
         if (color == 0) {

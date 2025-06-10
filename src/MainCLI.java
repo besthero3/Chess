@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,7 +54,8 @@ public class MainCLI {
             if (!notationCheck.equals("Invalid")) {
                 boolean validMove = false;
                 boolean captures = false;
-                int[] coordinates = new int[2];
+                int[] squareCoordinates = new int[2];
+                int[] pieceCoordinates = new int[2];
 
                 if (notationCheck.contains("takes")) {
                     captures = true;
@@ -71,13 +71,16 @@ public class MainCLI {
 
                     //Rf4
                     if (move.length() == 3) {
-                        coordinates = convertMoveToSquare(move.charAt(1), (int) move.charAt(2));
+                        squareCoordinates = convertMoveToSquare(move.charAt(1), (int) move.charAt(2));
                     }
 
                     //Rxf4
                     if (move.length() == 4 && captures) {
-                        coordinates = convertMoveToSquare(move.charAt(2), (int) move.charAt(3));
+                        squareCoordinates = convertMoveToSquare(move.charAt(2), (int) move.charAt(3));
                     }
+
+                    //call valid move and valid capture...
+                    //pass in the piece color because thats helpful...
 
                     //TODO: Rfe4
                     //TODO: Rfxe4
@@ -88,44 +91,56 @@ public class MainCLI {
 
                     if (whoseMove) {
                         Rook rook = new Rook(PieceColor.WHITE);
-                        validMove = rook.isValid(0,0); //check if the format is right
+                        pieceCoordinates = rook.isValidMove(0,0, PieceColor.WHITE, captures); //check if the format is right
                     }
                     else {
                         Rook rook = new Rook(PieceColor.BLACK);
-                        validMove = rook.isValid(0,0); //check if the format is right
+                        pieceCoordinates = rook.isValidMove(0,0, PieceColor.BLACK, captures); //check if the format is right
                     }
 
-                    if (validMove) {
-
+                    if (pieceCoordinates != null) {
+                        validMove = true;
                     }
-                    else {
-
-                    }
-
+                }
+                else if (notationCheck.contains("Knight")) {
 
                 }
-                if (notationCheck.contains("Knight")) {
+                else if (notationCheck.contains("Bishop")) {
 
                 }
-                if (notationCheck.contains("Bishop")) {
+                else if (notationCheck.contains("Queen")) {
 
                 }
-                if (notationCheck.contains("Queen")) {
-
-                }
-                if (notationCheck.contains("King")) {
+                else if (notationCheck.contains("King")) {
 
                 }
 
                 //call different class to check move validation
-                if (inCheck) {
-                    //ensure that the check is working
+
+                if (validMove) {
+                    //the move before this one says if the king is in check
+                    if (inCheck) {
+                        //TODO: have to make sure that the king gets out of check... CPR...
+
+                    }
+                    //move the piece
+
+                    //then after moving - check if the king is in check after that move
+                    //Check - could put it in the king class? or make a check class
+                    //TODO: STORE THE KINGS VALUE SO WE DONT HAVE TO CHECK EVERY SINGLE MOVE, UPDATE WHEN SUCCESSFUL KINGMOVE
+                    //then write a check method where we check all attack vectors, cant just check the piece being moved bc of discoveries and other things
+                    //change the incheck method appropriately
+
                 }
 
                 //if valid move
                 //check if last move put king in check
-
-                whoseMove = !whoseMove;
+                if (validMove) {
+                    whoseMove = !whoseMove;
+                }
+                else {
+                    System.out.println("Move was not a legal move! Try again!");
+                }
             }
         }
     }

@@ -5,7 +5,11 @@ public class Queen extends Piece {
     }
 
     @Override
-    boolean isValid(int row, int col) {
-        return false;
+    int[] isValidMove(int row, int col, PieceColor color, boolean captures) {
+        return null;
+    }
+
+    int[] isValidCapture(int row, int col, PieceColor color) {
+        return null;
     }
 }
