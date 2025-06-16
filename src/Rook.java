@@ -8,6 +8,10 @@ public class Rook extends Piece {
 
     @Override
     int[] isValidMove(int row, int col, PieceColor color, boolean captures) {
+        //TODO: need to check that pieces are not on edge of board
+        //then need to iterate back in the direction if we can
+        //need to start at row -1 and that kind of thing so our first check isnt on the square we
+        //are moving to
 
         int[] pieceCoordinates = new int[2];
 
@@ -28,7 +32,11 @@ public class Rook extends Piece {
         //for loop in each direction looking for a piece
 
         //back up the board...
-        for(int i = row; i >= 0; i--) {
+        for(int i = row - 1; i >= 0; i--) {
+
+            if (row - 1 < 0) {
+                break;
+            }
             //empty square
             if (MainCLI.board[i][col].p != null) {
                 if (MainCLI.board[i][col].p.type == PieceType.ROOK && MainCLI.board[i][col].p.color == color) {
@@ -44,7 +52,11 @@ public class Rook extends Piece {
         }
 
         //down the board
-        for (int i = row; i < 8; i++) {
+        for (int i = row + 1; i < 8; i++) {
+
+            if (row + 1 > 7) {
+                break;
+            }
             if (MainCLI.board[i][col].p != null) {
                 if (MainCLI.board[i][col].p.type == PieceType.ROOK && MainCLI.board[i][col].p.color == color) {
                     pieceCoordinates[0] = i;
@@ -59,7 +71,12 @@ public class Rook extends Piece {
         }
 
         //to the left
-        for (int i = col; i >= 0; i--) {
+        for (int i = col - 1; i >= 0; i--) {
+
+            if (col - 1 < 0) {
+                break;
+            }
+
             if (MainCLI.board[row][i].p != null) {
                 if (MainCLI.board[row][i].p.type == PieceType.ROOK && MainCLI.board[row][i].p.color == color) {
                     pieceCoordinates[0] = row;
@@ -74,7 +91,12 @@ public class Rook extends Piece {
         }
 
         // to the right
-        for (int i = col; i < 8; i++) {
+        for (int i = col + 1; i < 8; i++) {
+
+            if (col + 1 > 7) {
+                break;
+            }
+
             if (MainCLI.board[row][i].p != null) {
                 if (MainCLI.board[row][i].p.type == PieceType.ROOK && MainCLI.board[row][i].p.color == color) {
                     pieceCoordinates[0] = row;

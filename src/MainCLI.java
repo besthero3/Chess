@@ -16,8 +16,6 @@ public class MainCLI {
     public static final String WHITE = "\u001B[37m";
     public static final String GREEN = "\u001B[32m";
 
-
-
     //board has square
     //TODO: could set 0,0 to be a1
     static Square[][] board = new Square[8][8];
@@ -67,7 +65,48 @@ public class MainCLI {
                 //TODO: get square that we are going to for string parsing
 
                 //contains because takes can be present...
-                if (notationCheck.contains("Rook")) {
+                if (notationCheck.contains("Pawn")) {
+                    //f4
+                    if (move.length() == 2) {
+                        squareCoordinates = convertMoveToSquare(move.charAt(0), (int) move.charAt(1));
+                    }
+
+                    //exf4
+                    if (move.length() == 4 && captures) {
+                        squareCoordinates = convertMoveToSquare(move.charAt(2), (int) move.charAt(3));
+                    }
+
+                    //TODO: WE MAY WANT A CAPTURES SEPARATE FUNCTION - need to ensure that the correct pawn is taking...
+                    //also move and captures differently...
+
+                    if (whoseMove) {
+                        //separating the functions because they have such different behavior
+                        if (captures) {
+                            Pawn pawn = new Pawn(PieceColor.WHITE);
+                            pieceCoordinates = pawn.isValidCapture(0,0, PieceColor.WHITE,move.charAt(0)); //check if the format is right
+                        }
+                        else {
+                            Pawn pawn = new Pawn(PieceColor.WHITE);
+                            pieceCoordinates = pawn.isValidMove(0,0, PieceColor.WHITE, captures); //check if the format is right
+                        }
+
+                    }
+                    else {
+                        if (captures) {
+                            Pawn pawn = new Pawn(PieceColor.BLACK);
+                            pieceCoordinates = pawn.isValidCapture(0,0, PieceColor.BLACK, move.charAt(0)); //check if the format is right
+                        }
+                        else {
+                            Pawn pawn = new Pawn(PieceColor.BLACK);
+                            pieceCoordinates = pawn.isValidMove(0,0, PieceColor.BLACK, captures); //check if the format is right
+                        }
+                    }
+
+                    if (pieceCoordinates != null) {
+                        validMove = true;
+                    }
+                }
+                else if (notationCheck.contains("Rook")) {
 
                     //Rf4
                     if (move.length() == 3) {
@@ -104,12 +143,77 @@ public class MainCLI {
                 }
                 else if (notationCheck.contains("Knight")) {
 
+                    //Bf4
+                    if (move.length() == 3) {
+                        squareCoordinates = convertMoveToSquare(move.charAt(1), (int) move.charAt(2));
+                    }
+
+                    //Bxf4
+                    if (move.length() == 4 && captures) {
+                        squareCoordinates = convertMoveToSquare(move.charAt(2), (int) move.charAt(3));
+                    }
+
+                    if (whoseMove) {
+                        Knight knight = new Knight(PieceColor.WHITE);
+                        pieceCoordinates = knight.isValidMove(0,0, PieceColor.WHITE, captures); //check if the format is right
+                    }
+                    else {
+                        Knight knight = new Knight(PieceColor.BLACK);
+                        pieceCoordinates = knight.isValidMove(0,0, PieceColor.BLACK, captures); //check if the format is right
+                    }
+
+                    if (pieceCoordinates != null) {
+                        validMove = true;
+                    }
                 }
                 else if (notationCheck.contains("Bishop")) {
 
+                    //Bf4
+                    if (move.length() == 3) {
+                        squareCoordinates = convertMoveToSquare(move.charAt(1), (int) move.charAt(2));
+                    }
+
+                    //Bxf4
+                    if (move.length() == 4 && captures) {
+                        squareCoordinates = convertMoveToSquare(move.charAt(2), (int) move.charAt(3));
+                    }
+
+                    if (whoseMove) {
+                        Bishop bishop = new Bishop(PieceColor.WHITE);
+                        pieceCoordinates = bishop.isValidMove(0,0, PieceColor.WHITE, captures); //check if the format is right
+                    }
+                    else {
+                        Bishop bishop = new Bishop(PieceColor.BLACK);
+                        pieceCoordinates = bishop.isValidMove(0,0, PieceColor.BLACK, captures); //check if the format is right
+                    }
+
+                    if (pieceCoordinates != null) {
+                        validMove = true;
+                    }
                 }
                 else if (notationCheck.contains("Queen")) {
+                    //Qf4
+                    if (move.length() == 3) {
+                        squareCoordinates = convertMoveToSquare(move.charAt(1), (int) move.charAt(2));
+                    }
 
+                    //Bxf4
+                    if (move.length() == 4 && captures) {
+                        squareCoordinates = convertMoveToSquare(move.charAt(2), (int) move.charAt(3));
+                    }
+
+                    if (whoseMove) {
+                        Queen queen = new Queen(PieceColor.WHITE);
+                        pieceCoordinates = queen.isValidMove(0,0, PieceColor.WHITE, captures); //check if the format is right
+                    }
+                    else {
+                        Queen queen = new Queen(PieceColor.BLACK);
+                        pieceCoordinates = queen.isValidMove(0,0, PieceColor.BLACK, captures); //check if the format is right
+                    }
+
+                    if (pieceCoordinates != null) {
+                        validMove = true;
+                    }
                 }
                 else if (notationCheck.contains("King")) {
 
@@ -118,6 +222,7 @@ public class MainCLI {
                 //call different class to check move validation
 
                 if (validMove) {
+                    //TODO: if valid pawn move then need to set the first move to false!!!!!!!!!
                     //the move before this one says if the king is in check
                     if (inCheck) {
                         //TODO: have to make sure that the king gets out of check... CPR...
