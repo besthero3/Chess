@@ -6,6 +6,105 @@ public class King extends Piece {
 
     @Override
     int[] isValidMove(int row, int col, PieceColor color, boolean captures) {
+
+        int[] pieceCoordinates = new int[2];
+        //check one in every direction from row and col
+
+        //only need to check this captures
+        if (captures) {
+            //no piece there
+            if (MainCLI.board[row][col].p == null) {
+                return null;
+                //need to wrap this because i want to avoid a null pointer error
+            }
+            else {
+                //can't take a piece that is the same color as your piece
+                if (MainCLI.board[row][col].p.color == color) {
+                    return null;
+                }
+            }
+        }
+
+        //off of the top edge of the board
+        if(row > 0) {
+
+            //top left
+            if (col > 0) {
+                if (MainCLI.board[row - 1][col - 1].p.type == PieceType.KING && MainCLI.board[row - 1][col - 1].p.color == color) {
+                    pieceCoordinates[0] = row - 1;
+                    pieceCoordinates[1] = col - 1;
+                    return pieceCoordinates;
+                }
+            }
+
+            //top middle
+            if (MainCLI.board[row - 1][col].p.type == PieceType.KING && MainCLI.board[row - 1][col].p.color == color) {
+                pieceCoordinates[0] = row - 1;
+                pieceCoordinates[1] = col;
+                return pieceCoordinates;
+            }
+
+            if (col < 7) {
+                //top right
+                if (MainCLI.board[row - 1][col + 1].p.type == PieceType.KING && MainCLI.board[row - 1][col + 1].p.color == color) {
+                    pieceCoordinates[0] = row - 1;
+                    pieceCoordinates[1] = col + 1;
+                    return pieceCoordinates;
+                }
+            }
+
+
+        }
+
+        //off the left edge of the board
+        if(col > 0) {
+            //middle left
+            if (MainCLI.board[row][col - 1].p.type == PieceType.KING && MainCLI.board[row][col - 1].p.color == color) {
+                pieceCoordinates[0] = row;
+                pieceCoordinates[1] = col - 1;
+                return pieceCoordinates;
+            }
+        }
+
+        //off the right edge of the board
+        if(col < 7) {
+            //middle right
+            if (MainCLI.board[row][col + 1].p.type == PieceType.KING && MainCLI.board[row][col + 1].p.color == color) {
+                pieceCoordinates[0] = row;
+                pieceCoordinates[1] = col + 1;
+                return pieceCoordinates;
+            }
+        }
+
+        //off the bottom edge of the board
+        if(row < 7) {
+
+            if (col > 0) {
+                //bottom left
+                if (MainCLI.board[row + 1][col - 1].p.type == PieceType.KING && MainCLI.board[row + 1][col - 1].p.color == color) {
+                    pieceCoordinates[0] = row + 1;
+                    pieceCoordinates[1] = col - 1;
+                    return pieceCoordinates;
+                }
+            }
+
+            //bottom middle
+            if (MainCLI.board[row + 1][col].p.type == PieceType.KING && MainCLI.board[row + 1][col].p.color == color) {
+                pieceCoordinates[0] = row + 1;
+                pieceCoordinates[1] = col;
+                return pieceCoordinates;
+            }
+
+            if (col < 7) {
+                //bottom right
+                if (MainCLI.board[row + 1][col + 1].p.type == PieceType.KING && MainCLI.board[row + 1][col + 1].p.color == color) {
+                    pieceCoordinates[0] = row + 1;
+                    pieceCoordinates[1] = col + 1;
+                    return pieceCoordinates;
+                }
+            }
+        }
+
         return null;
     }
 

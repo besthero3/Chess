@@ -15,6 +15,7 @@ public class Rook extends Piece {
 
         int[] pieceCoordinates = new int[2];
 
+        //only need to check this captures
         if (captures) {
             //no piece there
             if (MainCLI.board[row][col].p == null) {

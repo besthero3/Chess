@@ -83,22 +83,22 @@ public class MainCLI {
                         //separating the functions because they have such different behavior
                         if (captures) {
                             Pawn pawn = new Pawn(PieceColor.WHITE);
-                            pieceCoordinates = pawn.isValidCapture(0,0, PieceColor.WHITE,move.charAt(0)); //check if the format is right
+                            pieceCoordinates = pawn.isValidCapture(squareCoordinates[0],squareCoordinates[1], PieceColor.WHITE,move.charAt(0)); //check if the format is right
                         }
                         else {
                             Pawn pawn = new Pawn(PieceColor.WHITE);
-                            pieceCoordinates = pawn.isValidMove(0,0, PieceColor.WHITE, captures); //check if the format is right
+                            pieceCoordinates = pawn.isValidMove(squareCoordinates[0],squareCoordinates[1], PieceColor.WHITE, captures); //check if the format is right
                         }
 
                     }
                     else {
                         if (captures) {
                             Pawn pawn = new Pawn(PieceColor.BLACK);
-                            pieceCoordinates = pawn.isValidCapture(0,0, PieceColor.BLACK, move.charAt(0)); //check if the format is right
+                            pieceCoordinates = pawn.isValidCapture(squareCoordinates[0],squareCoordinates[1], PieceColor.BLACK, move.charAt(0)); //check if the format is right
                         }
                         else {
                             Pawn pawn = new Pawn(PieceColor.BLACK);
-                            pieceCoordinates = pawn.isValidMove(0,0, PieceColor.BLACK, captures); //check if the format is right
+                            pieceCoordinates = pawn.isValidMove(squareCoordinates[0],squareCoordinates[1], PieceColor.BLACK, captures); //check if the format is right
                         }
                     }
 
@@ -130,11 +130,11 @@ public class MainCLI {
 
                     if (whoseMove) {
                         Rook rook = new Rook(PieceColor.WHITE);
-                        pieceCoordinates = rook.isValidMove(0,0, PieceColor.WHITE, captures); //check if the format is right
+                        pieceCoordinates = rook.isValidMove(squareCoordinates[0],squareCoordinates[1], PieceColor.WHITE, captures); //check if the format is right
                     }
                     else {
                         Rook rook = new Rook(PieceColor.BLACK);
-                        pieceCoordinates = rook.isValidMove(0,0, PieceColor.BLACK, captures); //check if the format is right
+                        pieceCoordinates = rook.isValidMove(squareCoordinates[0],squareCoordinates[1], PieceColor.BLACK, captures); //check if the format is right
                     }
 
                     if (pieceCoordinates != null) {
@@ -155,11 +155,11 @@ public class MainCLI {
 
                     if (whoseMove) {
                         Knight knight = new Knight(PieceColor.WHITE);
-                        pieceCoordinates = knight.isValidMove(0,0, PieceColor.WHITE, captures); //check if the format is right
+                        pieceCoordinates = knight.isValidMove(squareCoordinates[0],squareCoordinates[1], PieceColor.WHITE, captures); //check if the format is right
                     }
                     else {
                         Knight knight = new Knight(PieceColor.BLACK);
-                        pieceCoordinates = knight.isValidMove(0,0, PieceColor.BLACK, captures); //check if the format is right
+                        pieceCoordinates = knight.isValidMove(squareCoordinates[0],squareCoordinates[1], PieceColor.BLACK, captures); //check if the format is right
                     }
 
                     if (pieceCoordinates != null) {
@@ -180,11 +180,11 @@ public class MainCLI {
 
                     if (whoseMove) {
                         Bishop bishop = new Bishop(PieceColor.WHITE);
-                        pieceCoordinates = bishop.isValidMove(0,0, PieceColor.WHITE, captures); //check if the format is right
+                        pieceCoordinates = bishop.isValidMove(squareCoordinates[0],squareCoordinates[1], PieceColor.WHITE, captures); //check if the format is right
                     }
                     else {
                         Bishop bishop = new Bishop(PieceColor.BLACK);
-                        pieceCoordinates = bishop.isValidMove(0,0, PieceColor.BLACK, captures); //check if the format is right
+                        pieceCoordinates = bishop.isValidMove(squareCoordinates[0],squareCoordinates[1], PieceColor.BLACK, captures); //check if the format is right
                     }
 
                     if (pieceCoordinates != null) {
@@ -204,11 +204,11 @@ public class MainCLI {
 
                     if (whoseMove) {
                         Queen queen = new Queen(PieceColor.WHITE);
-                        pieceCoordinates = queen.isValidMove(0,0, PieceColor.WHITE, captures); //check if the format is right
+                        pieceCoordinates = queen.isValidMove(squareCoordinates[0],squareCoordinates[1], PieceColor.WHITE, captures); //check if the format is right
                     }
                     else {
                         Queen queen = new Queen(PieceColor.BLACK);
-                        pieceCoordinates = queen.isValidMove(0,0, PieceColor.BLACK, captures); //check if the format is right
+                        pieceCoordinates = queen.isValidMove(squareCoordinates[0],squareCoordinates[1], PieceColor.BLACK, captures); //check if the format is right
                     }
 
                     if (pieceCoordinates != null) {
@@ -217,15 +217,59 @@ public class MainCLI {
                 }
                 else if (notationCheck.contains("King")) {
 
+                    //Kf4
+                    if (move.length() == 3) {
+                        squareCoordinates = convertMoveToSquare(move.charAt(1), (int) move.charAt(2));
+                    }
+
+                    //Kxf4
+                    if (move.length() == 4 && captures) {
+                        squareCoordinates = convertMoveToSquare(move.charAt(2), (int) move.charAt(3));
+                    }
+
+                    if (whoseMove) {
+                        King king = new King(PieceColor.WHITE);
+                        boolean inCheck = king.check(squareCoordinates[0], squareCoordinates[1], PieceColor.WHITE); //check if the format is right
+
+                        if (!inCheck) {
+                            pieceCoordinates = king.isValidMove(squareCoordinates[0], squareCoordinates[1], PieceColor.WHITE, captures);
+                        }
+                    }
+                    else {
+                        King king = new King(PieceColor.BLACK);
+                        boolean inCheck = king.check(squareCoordinates[0], squareCoordinates[1], PieceColor.BLACK); //check if the format is right
+
+                        if (!inCheck) {
+                            pieceCoordinates = king.isValidMove(squareCoordinates[0], squareCoordinates[1], PieceColor.BLACK, captures);
+                        }
+                    }
+
+                    if (pieceCoordinates != null) {
+                        validMove = true;
+                    }
+
                 }
 
                 //call different class to check move validation
 
+                //TODO: the moves are good - now need to check every move for check
+                //TODO: then write a move function if not in check...
+                //TODO: can just call check
+
+
                 if (validMove) {
                     //TODO: if valid pawn move then need to set the first move to false!!!!!!!!!
                     //the move before this one says if the king is in check
+
+                    //TODO: could make a copy of the board and check if the copy is in check ...  IF VALID MOVE
+                    //IF IT IS - THEN CHANGE THE ORIGINAL BOARD TO HAVE THE MOVE ON IT....
+                    //SQUARE COORDINATES
+                    //PIECE COODRIANETS - SET THE PIECE EQUAL TO SQUARE COORDINATE, AND SET PIECE EQUAL TO NULL
+                    //TODO: MAYBE DO THIS EITHER WAY - DO I NEED TO DO IT TWICE? UNDER IN CHECK AND UNDER VALID MOVE
+
                     if (inCheck) {
                         //TODO: have to make sure that the king gets out of check... CPR...
+                        //see above notes
 
                     }
                     //move the piece
