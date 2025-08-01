@@ -4,6 +4,8 @@ import java.util.regex.Pattern;
 
 public class MainCLI {
 
+    //Todo: NEED TO FIX TYPE - None is a better type than making everything NULL
+
     boolean whiteCanCastle = true;
     boolean blackCanCastle = true;
     static int whiteMoveCount = 0;
@@ -11,6 +13,10 @@ public class MainCLI {
     static boolean gameOver = false;
     static boolean inCheck = false;
     static boolean whoseMove = true;
+
+    //currentInCheck means if white or black is in check
+    static boolean currentInCheck = false;
+    static boolean opponentCurrentInCheck = false;
 
     public static final String BLACK = "\u001B[30m";
     public static final String WHITE = "\u001B[37m";
@@ -20,16 +26,26 @@ public class MainCLI {
     //TODO: could set 0,0 to be a1
     static Square[][] board = new Square[8][8];
 
+    static int[] whiteKingPosition = new int[2];
+    static int[] blackKingPosition = new int[2];
+
     public static void main(String[] args) {
 
         for(int row = 0; row < board[0].length; row++) {
 
             for (int col = 0; col < board.length; col++) {
-                board[row][col] = new Square(null, true);
+                //TODO: add this no piece to everywhere
+                board[row][col] = new Square(new NoPiece(), true);
 
             }
         }
         createBoard();
+        //row, col
+        whiteKingPosition[0] = 7;
+        whiteKingPosition[1] = 4;
+
+        blackKingPosition[0] = 0;
+        blackKingPosition[1] = 4;
 
         while(!gameOver) {
             printBoard();
@@ -68,12 +84,12 @@ public class MainCLI {
                 if (notationCheck.contains("Pawn")) {
                     //f4
                     if (move.length() == 2) {
-                        squareCoordinates = convertMoveToSquare(move.charAt(0), (int) move.charAt(1));
+                        squareCoordinates = convertMoveToSquare(move.charAt(0), Character.getNumericValue(move.charAt(1)) );
                     }
 
                     //exf4
                     if (move.length() == 4 && captures) {
-                        squareCoordinates = convertMoveToSquare(move.charAt(2), (int) move.charAt(3));
+                        squareCoordinates = convertMoveToSquare(move.charAt(2), Character.getNumericValue(move.charAt(3)) );
                     }
 
                     //TODO: WE MAY WANT A CAPTURES SEPARATE FUNCTION - need to ensure that the correct pawn is taking...
@@ -110,12 +126,12 @@ public class MainCLI {
 
                     //Rf4
                     if (move.length() == 3) {
-                        squareCoordinates = convertMoveToSquare(move.charAt(1), (int) move.charAt(2));
+                        squareCoordinates = convertMoveToSquare(move.charAt(1), Character.getNumericValue(move.charAt(2)) );
                     }
 
                     //Rxf4
                     if (move.length() == 4 && captures) {
-                        squareCoordinates = convertMoveToSquare(move.charAt(2), (int) move.charAt(3));
+                        squareCoordinates = convertMoveToSquare(move.charAt(2), Character.getNumericValue(move.charAt(3)) );
                     }
 
                     //call valid move and valid capture...
@@ -145,12 +161,14 @@ public class MainCLI {
 
                     //Bf4
                     if (move.length() == 3) {
-                        squareCoordinates = convertMoveToSquare(move.charAt(1), (int) move.charAt(2));
+                        //TODO: NF3 - CHAR AT IS GETTING THE CHARACTER AT THAT POINT
+                        squareCoordinates = convertMoveToSquare(move.charAt(1), Character.getNumericValue(move.charAt(2)));
+
                     }
 
                     //Bxf4
                     if (move.length() == 4 && captures) {
-                        squareCoordinates = convertMoveToSquare(move.charAt(2), (int) move.charAt(3));
+                        squareCoordinates = convertMoveToSquare(move.charAt(2), Character.getNumericValue(move.charAt(3)));
                     }
 
                     if (whoseMove) {
@@ -170,12 +188,12 @@ public class MainCLI {
 
                     //Bf4
                     if (move.length() == 3) {
-                        squareCoordinates = convertMoveToSquare(move.charAt(1), (int) move.charAt(2));
+                        squareCoordinates = convertMoveToSquare(move.charAt(1), Character.getNumericValue(move.charAt(2)) );
                     }
 
                     //Bxf4
                     if (move.length() == 4 && captures) {
-                        squareCoordinates = convertMoveToSquare(move.charAt(2), (int) move.charAt(3));
+                        squareCoordinates = convertMoveToSquare(move.charAt(2), Character.getNumericValue(move.charAt(3)) );
                     }
 
                     if (whoseMove) {
@@ -194,12 +212,12 @@ public class MainCLI {
                 else if (notationCheck.contains("Queen")) {
                     //Qf4
                     if (move.length() == 3) {
-                        squareCoordinates = convertMoveToSquare(move.charAt(1), (int) move.charAt(2));
+                        squareCoordinates = convertMoveToSquare(move.charAt(1), Character.getNumericValue(move.charAt(2)) );
                     }
 
                     //Bxf4
                     if (move.length() == 4 && captures) {
-                        squareCoordinates = convertMoveToSquare(move.charAt(2), (int) move.charAt(3));
+                        squareCoordinates = convertMoveToSquare(move.charAt(2), Character.getNumericValue(move.charAt(3)) );
                     }
 
                     if (whoseMove) {
@@ -219,27 +237,27 @@ public class MainCLI {
 
                     //Kf4
                     if (move.length() == 3) {
-                        squareCoordinates = convertMoveToSquare(move.charAt(1), (int) move.charAt(2));
+                        squareCoordinates = convertMoveToSquare(move.charAt(1), Character.getNumericValue(move.charAt(2)) );
                     }
 
                     //Kxf4
                     if (move.length() == 4 && captures) {
-                        squareCoordinates = convertMoveToSquare(move.charAt(2), (int) move.charAt(3));
+                        squareCoordinates = convertMoveToSquare(move.charAt(2), Character.getNumericValue(move.charAt(3)) );
                     }
 
                     if (whoseMove) {
                         King king = new King(PieceColor.WHITE);
-                        boolean inCheck = king.check(squareCoordinates[0], squareCoordinates[1], PieceColor.WHITE); //check if the format is right
+                        boolean inCheckKing = king.check(squareCoordinates[0], squareCoordinates[1], PieceColor.WHITE); //check if the format is right
 
-                        if (!inCheck) {
+                        if (!inCheckKing) {
                             pieceCoordinates = king.isValidMove(squareCoordinates[0], squareCoordinates[1], PieceColor.WHITE, captures);
                         }
                     }
                     else {
                         King king = new King(PieceColor.BLACK);
-                        boolean inCheck = king.check(squareCoordinates[0], squareCoordinates[1], PieceColor.BLACK); //check if the format is right
+                        boolean inCheckKing = king.check(squareCoordinates[0], squareCoordinates[1], PieceColor.BLACK); //check if the format is right
 
-                        if (!inCheck) {
+                        if (!inCheckKing) {
                             pieceCoordinates = king.isValidMove(squareCoordinates[0], squareCoordinates[1], PieceColor.BLACK, captures);
                         }
                     }
@@ -256,7 +274,7 @@ public class MainCLI {
                 //TODO: then write a move function if not in check...
                 //TODO: can just call check
 
-
+                //valid move is completed...
                 if (validMove) {
                     //TODO: if valid pawn move then need to set the first move to false!!!!!!!!!
                     //the move before this one says if the king is in check
@@ -267,11 +285,113 @@ public class MainCLI {
                     //PIECE COODRIANETS - SET THE PIECE EQUAL TO SQUARE COORDINATE, AND SET PIECE EQUAL TO NULL
                     //TODO: MAYBE DO THIS EITHER WAY - DO I NEED TO DO IT TWICE? UNDER IN CHECK AND UNDER VALID MOVE
 
+                    //this means before our turn the king is in check... but we also need to see if king is in check after move
+                    King finalKingWhite = new King(PieceColor.WHITE);
+                    King finalKingBlack = new King(PieceColor.BLACK);
+
+                    /*
                     if (inCheck) {
                         //TODO: have to make sure that the king gets out of check... CPR...
                         //see above notes
 
                     }
+                    */
+
+                    //Square[][] boardCopy = board;
+                    //TODO: BOARD IS STILL CORRECT HERE
+                    //printBoard();
+
+                    //TODO: these two lines are what breaks it
+                    //square we are moving to equals the square of the piece we moved from...
+                    //boardCopy[squareCoordinates[0]][squareCoordinates[1]].p = boardCopy[pieceCoordinates[0]][pieceCoordinates[1]].p;
+                    //boardCopy[squareCoordinates[0]][squareCoordinates[1]].empty = boardCopy[pieceCoordinates[0]][pieceCoordinates[1]].empty;
+
+
+                    //TODO: ONE THING TO NOTE IS THAT WE NEED TO BE CHANGING THIS? - THIS IS ONLY CASE WHERE THE KING IS PLACED ON WRONG SQUARE BUT VALUES ARE CHANGED
+                    //TODO: MAYBE TRY ITERATING THROUGH ALL THE VALUES
+                    //board[2][2].p = new King(PieceColor.WHITE);
+                    //board[2][2].empty = false;
+                    //board[squareCoordinates[0]][squareCoordinates[1]].p.type = PieceType.KING;
+                    //board[squareCoordinates[0]][squareCoordinates[1]].p.color = PieceColor.WHITE;
+
+                    //TODO: CHANGE BACK TO BOARD COPY, FIX KING CHECK METHOD TO USE BOARD COPY
+                    //todo: FIGURE OUT WHY WE ARE MOVING THE H PAWN INSTEAD OF THE E PAWN
+
+                    //board[squareCoordinates[0]][squareCoordinates[1]] = board[pieceCoordinates[0]][pieceCoordinates[1]];
+
+                    //square we are moving from is now empty
+                    //board[pieceCoordinates[0]][pieceCoordinates[1]] = new Square(new NoPiece(), true);
+
+
+                    //square we are moving from is now empty
+                    //boardCopy[pieceCoordinates[0]][pieceCoordinates[1]] = new Square(new NoPiece(), true);
+                    //boardCopy[pieceCoordinates[0]][pieceCoordinates[1]].p = new NoPiece();
+                    //boardCopy[pieceCoordinates[0]][pieceCoordinates[1]].empty = true;
+
+                    //printBoard();
+
+                    //TODO: check
+                    //white
+                    if (whoseMove) {
+
+                        //need to track the white and black king's placements at the start of the game and update them here
+
+
+                        //White's turn...
+                        //check if the white king is in check
+                        //if it is then revert the move and say this move is illegal - king in check
+                        //if it is not, then say, move is legal and make the move
+
+                        //TODO - update king position
+                        //TODO: THIS IS NOT USING THE BOARD WITH THE MOVE ON IT...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        currentInCheck = finalKingWhite.check(whiteKingPosition[0], whiteKingPosition[1], PieceColor.WHITE);
+
+                        //CHeck the board TODO!!!
+                        if (!currentInCheck) {
+                            //TODO make the move
+
+                            //TODO: SMTH IS WRONG WITH THE COORDINATES I THINK FOR COLUMNS - NONE ARE WORKING RIGHT
+                            board[squareCoordinates[0]][squareCoordinates[1]] = board[pieceCoordinates[0]][pieceCoordinates[1]];
+
+                            //square we are moving from is now empty
+                            board[pieceCoordinates[0]][pieceCoordinates[1]] = new Square(new NoPiece(), true);
+                        }
+                        //we are in check
+                        else {
+                            validMove = false;
+                        }
+
+                        //then need to check if black king is in check so it can be recorded and the static vairbale can be changed
+                        opponentCurrentInCheck = finalKingBlack.check(blackKingPosition[0], blackKingPosition[1], PieceColor.BLACK);
+
+                        //TODO: set valid move equal to false if the move is not valid!!!
+                    }
+                    //black
+                    else  {
+                        //see above
+
+                        currentInCheck = finalKingBlack.check(blackKingPosition[0], blackKingPosition[1], PieceColor.BLACK);
+
+                        if (!currentInCheck) {
+                            //TODO make the move!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+                            ////TODO: here!!!!!!!!!!!!
+                            board[squareCoordinates[0]][squareCoordinates[1]] = board[pieceCoordinates[0]][pieceCoordinates[1]];
+
+                            //square we are moving from is now empty
+                            board[pieceCoordinates[0]][pieceCoordinates[1]] = new Square(new NoPiece(), true);
+                        }
+                        //we are in check
+                        else {
+                            validMove = false;
+                        }
+
+                        //then need to check if black king is in check so it can be recorded and the static vairbale can be changed
+                        opponentCurrentInCheck = finalKingWhite.check(whiteKingPosition[0], whiteKingPosition[1], PieceColor.WHITE);
+                    }
+
                     //move the piece
 
                     //then after moving - check if the king is in check after that move
@@ -284,20 +404,47 @@ public class MainCLI {
 
                 //if valid move
                 //check if last move put king in check
+                //TODO: make sure to adjust this with variables above...
                 if (validMove) {
                     whoseMove = !whoseMove;
                 }
                 else {
-                    System.out.println("Move was not a legal move! Try again!");
+                    if (currentInCheck) {
+                        System.out.println("You are in check! Move was not legal! Try again!");
+                    }
+                    else {
+                        System.out.println("Move was not a legal move! Try again!");
+                    }
+
                 }
             }
         }
+
+        //todo add checkmate
     }
 
     static int[] convertMoveToSquare(char col, int row) {
         int[] return_array = new int[2];
 
+        //Nf3 = 3 means
+        //could do number by number conversion...
         return_array[0] = (row - 8) * -1;
+
+        /* Notation = row
+        * 8 = 0
+        * 7 = 1
+        * 6 = 2
+        * 5 = 3
+        * 4 = 4
+        * 3 = 5
+        * 2 = 6
+        * 1 = 7
+        *
+        *
+        *
+        *
+        *
+        * */
 
         if(col == 'a') {
             return_array[1] = 0;
@@ -341,11 +488,11 @@ public class MainCLI {
             for(int col = 0; col < board.length; col++) {
 
                 //TODO: NULL CHECK, COULD FIND A WAY TO MAKE IT SO THINGS ARE NOT NULL
-                if (board[row][col].p == null) {
-                    break;
+                if (board[row][col].p.type == PieceType.NONE) { //todo
+                    System.out.print(WHITE + "  " + WHITE);
                 }
                 //print the string representation of the board
-                if (board[row][col].p.type == PieceType.ROOK) {
+                else if (board[row][col].p.type == PieceType.ROOK) {
 
                     //white
                     if (board[row][col].p.color == PieceColor.WHITE) {
@@ -358,7 +505,7 @@ public class MainCLI {
 
                 }
 
-                if (board[row][col].p.type == PieceType.KNIGHT) {
+                else if (board[row][col].p.type == PieceType.KNIGHT) {
 
                     //white
                     if (board[row][col].p.color == PieceColor.WHITE) {
@@ -371,7 +518,7 @@ public class MainCLI {
 
                 }
 
-                if (board[row][col].p.type == PieceType.BISHOP) {
+                else if (board[row][col].p.type == PieceType.BISHOP) {
 
                     //white
                     if (board[row][col].p.color == PieceColor.WHITE) {
@@ -384,7 +531,7 @@ public class MainCLI {
 
                 }
 
-                if (board[row][col].p.type == PieceType.QUEEN) {
+                else if (board[row][col].p.type == PieceType.QUEEN) {
 
                     //white
                     if (board[row][col].p.color == PieceColor.WHITE) {
@@ -397,7 +544,7 @@ public class MainCLI {
 
                 }
 
-                if (board[row][col].p.type == PieceType.KING) {
+                else if (board[row][col].p.type == PieceType.KING) {
 
                     //white
                     if (board[row][col].p.color == PieceColor.WHITE) {
@@ -410,7 +557,7 @@ public class MainCLI {
 
                 }
 
-                if (board[row][col].p.type == PieceType.PAWN) {
+                else if (board[row][col].p.type == PieceType.PAWN) {
 
                     //white
                     if (board[row][col].p.color == PieceColor.WHITE) {
@@ -626,4 +773,11 @@ public class MainCLI {
 
     }
 
+    //
+
+    //TODO: need to write checkmate code!!!
+
+
 }
+
+

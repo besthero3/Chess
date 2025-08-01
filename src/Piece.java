@@ -22,8 +22,4 @@ abstract public class Piece {
             return PieceColor.BLACK;
         }
     }
-
-
-
-
 }
