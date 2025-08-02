@@ -21,6 +21,12 @@ public class Queen extends Piece {
                 }
             }
         }
+        else {
+            if (MainCLI.board[row][col].p != null && MainCLI.board[row][col].p.type != PieceType.NONE) {
+                return null;
+                //need to wrap this because i want to avoid a null pointer error
+            }
+        }
 
         //<-------------------------HORIZONTAL AND VERTICAL MOVEMENT --------------------------------------------->
 
@@ -31,8 +37,8 @@ public class Queen extends Piece {
                 break;
             }
             //empty square
-            if (MainCLI.board[i][col].p != null) {
-                if (MainCLI.board[i][col].p.type == PieceType.ROOK && MainCLI.board[i][col].p.color == color) {
+            if (MainCLI.board[i][col].p != null && MainCLI.board[i][col].p.type != PieceType.NONE) {
+                if (MainCLI.board[i][col].p.type == PieceType.QUEEN && MainCLI.board[i][col].p.color == color) {
                     pieceCoordinates[0] = i;
                     pieceCoordinates[1] = col;
                     return pieceCoordinates;
@@ -50,8 +56,8 @@ public class Queen extends Piece {
             if (row + 1 > 7) {
                 break;
             }
-            if (MainCLI.board[i][col].p != null) {
-                if (MainCLI.board[i][col].p.type == PieceType.ROOK && MainCLI.board[i][col].p.color == color) {
+            if (MainCLI.board[i][col].p != null && MainCLI.board[i][col].p.type != PieceType.NONE) {
+                if (MainCLI.board[i][col].p.type == PieceType.QUEEN && MainCLI.board[i][col].p.color == color) {
                     pieceCoordinates[0] = i;
                     pieceCoordinates[1] = col;
                     return pieceCoordinates;
@@ -70,8 +76,8 @@ public class Queen extends Piece {
                 break;
             }
 
-            if (MainCLI.board[row][i].p != null) {
-                if (MainCLI.board[row][i].p.type == PieceType.ROOK && MainCLI.board[row][i].p.color == color) {
+            if (MainCLI.board[row][i].p != null && MainCLI.board[row][i].p.type != PieceType.NONE) {
+                if (MainCLI.board[row][i].p.type == PieceType.QUEEN && MainCLI.board[row][i].p.color == color) {
                     pieceCoordinates[0] = row;
                     pieceCoordinates[1] = i;
                     return pieceCoordinates;
@@ -90,8 +96,8 @@ public class Queen extends Piece {
                 break;
             }
 
-            if (MainCLI.board[row][i].p != null) {
-                if (MainCLI.board[row][i].p.type == PieceType.ROOK && MainCLI.board[row][i].p.color == color) {
+            if (MainCLI.board[row][i].p != null && MainCLI.board[row][i].p.type != PieceType.NONE) {
+                if (MainCLI.board[row][i].p.type == PieceType.QUEEN && MainCLI.board[row][i].p.color == color) {
                     pieceCoordinates[0] = row;
                     pieceCoordinates[1] = i;
                     return pieceCoordinates;
@@ -118,10 +124,10 @@ public class Queen extends Piece {
                 }
 
                 //if not an empty square
-                if (MainCLI.board[i][col].p != null) {
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
 
                     //the piece type matches and the color matches the piece we are moving
-                    if (MainCLI.board[i][col].p.type == PieceType.BISHOP && MainCLI.board[i][col].p.color == color) {
+                    if (MainCLI.board[i][j].p.type == PieceType.QUEEN && MainCLI.board[i][j].p.color == color) {
                         pieceCoordinates[0] = i;
                         pieceCoordinates[1] = j;
                         return pieceCoordinates;
@@ -147,10 +153,10 @@ public class Queen extends Piece {
                 }
 
                 //if not an empty square
-                if (MainCLI.board[i][col].p != null) {
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
 
                     //the piece type matches and the color matches the piece we are moving
-                    if (MainCLI.board[i][col].p.type == PieceType.BISHOP && MainCLI.board[i][col].p.color == color) {
+                    if (MainCLI.board[i][j].p.type == PieceType.QUEEN && MainCLI.board[i][j].p.color == color) {
                         pieceCoordinates[0] = i;
                         pieceCoordinates[1] = j;
                         return pieceCoordinates;
@@ -175,10 +181,10 @@ public class Queen extends Piece {
                 }
 
                 //if not an empty square
-                if (MainCLI.board[i][col].p != null) {
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
 
                     //the piece type matches and the color matches the piece we are moving
-                    if (MainCLI.board[i][col].p.type == PieceType.BISHOP && MainCLI.board[i][col].p.color == color) {
+                    if (MainCLI.board[i][j].p.type == PieceType.QUEEN && MainCLI.board[i][j].p.color == color) {
                         pieceCoordinates[0] = i;
                         pieceCoordinates[1] = j;
                         return pieceCoordinates;
@@ -203,10 +209,10 @@ public class Queen extends Piece {
                 }
 
                 //if not an empty square
-                if (MainCLI.board[i][col].p != null) {
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
 
                     //the piece type matches and the color matches the piece we are moving
-                    if (MainCLI.board[i][col].p.type == PieceType.BISHOP && MainCLI.board[i][col].p.color == color) {
+                    if (MainCLI.board[i][j].p.type == PieceType.QUEEN && MainCLI.board[i][j].p.color == color) {
                         pieceCoordinates[0] = i;
                         pieceCoordinates[1] = j;
                         return pieceCoordinates;
