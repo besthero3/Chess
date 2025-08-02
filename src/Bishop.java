@@ -21,6 +21,12 @@ public class Bishop extends Piece {
                 }
             }
         }
+        else {
+            if (MainCLI.board[row][col].p != null && MainCLI.board[row][col].p.type != PieceType.NONE) {
+                return null;
+                //need to wrap this because i want to avoid a null pointer error
+            }
+        }
 
         //row - 1, col -1. up left
         if (row - 1 >= 0 && col - 1 >= 0) {
@@ -34,10 +40,10 @@ public class Bishop extends Piece {
                 }
 
                 //if not an empty square
-                if (MainCLI.board[i][col].p != null) {
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
 
                     //the piece type matches and the color matches the piece we are moving
-                    if (MainCLI.board[i][col].p.type == PieceType.BISHOP && MainCLI.board[i][col].p.color == color) {
+                    if (MainCLI.board[i][j].p.type == PieceType.BISHOP && MainCLI.board[i][j].p.color == color) {
                         pieceCoordinates[0] = i;
                         pieceCoordinates[1] = j;
                         return pieceCoordinates;
@@ -63,10 +69,10 @@ public class Bishop extends Piece {
                 }
 
                 //if not an empty square
-                if (MainCLI.board[i][col].p != null) {
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
 
                     //the piece type matches and the color matches the piece we are moving
-                    if (MainCLI.board[i][col].p.type == PieceType.BISHOP && MainCLI.board[i][col].p.color == color) {
+                    if (MainCLI.board[i][j].p.type == PieceType.BISHOP && MainCLI.board[i][j].p.color == color) {
                         pieceCoordinates[0] = i;
                         pieceCoordinates[1] = j;
                         return pieceCoordinates;
@@ -91,10 +97,10 @@ public class Bishop extends Piece {
                 }
 
                 //if not an empty square
-                if (MainCLI.board[i][col].p != null) {
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
 
                     //the piece type matches and the color matches the piece we are moving
-                    if (MainCLI.board[i][col].p.type == PieceType.BISHOP && MainCLI.board[i][col].p.color == color) {
+                    if (MainCLI.board[i][j].p.type == PieceType.BISHOP && MainCLI.board[i][j].p.color == color) {
                         pieceCoordinates[0] = i;
                         pieceCoordinates[1] = j;
                         return pieceCoordinates;
@@ -119,10 +125,10 @@ public class Bishop extends Piece {
                 }
 
                 //if not an empty square
-                if (MainCLI.board[i][col].p != null) {
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
 
                     //the piece type matches and the color matches the piece we are moving
-                    if (MainCLI.board[i][col].p.type == PieceType.BISHOP && MainCLI.board[i][col].p.color == color) {
+                    if (MainCLI.board[i][j].p.type == PieceType.BISHOP && MainCLI.board[i][j].p.color == color) {
                         pieceCoordinates[0] = i;
                         pieceCoordinates[1] = j;
                         return pieceCoordinates;
