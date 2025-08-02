@@ -29,6 +29,12 @@ public class Rook extends Piece {
                 }
             }
         }
+        else {
+            if (MainCLI.board[row][col].p != null && MainCLI.board[row][col].p.type != PieceType.NONE) {
+                return null;
+                //need to wrap this because i want to avoid a null pointer error
+            }
+        }
 
         //for loop in each direction looking for a piece
 
@@ -47,7 +53,11 @@ public class Rook extends Piece {
                 }
                 //we found a different type of piece and we cannot jump over it because this is a rook
                 else {
-                    break;
+
+                    if (MainCLI.board[i][col].p != null && MainCLI.board[i][col].p.type != PieceType.NONE) {
+                        break;
+                    }
+
                 }
             }
         }
@@ -55,9 +65,11 @@ public class Rook extends Piece {
         //down the board
         for (int i = row + 1; i < 8; i++) {
 
-            if (row + 1 > 7) {
-                break;
-            }
+            //if (row + 1 > 7) {
+            //    break;
+            //}
+
+            //picece could be none and then the else clause below will trigger... could also add the none part up here
             if (MainCLI.board[i][col].p != null) {
                 if (MainCLI.board[i][col].p.type == PieceType.ROOK && MainCLI.board[i][col].p.color == color) {
                     pieceCoordinates[0] = i;
@@ -66,7 +78,14 @@ public class Rook extends Piece {
                 }
                 //we found a different type of piece and we cannot jump over it because this is a rook
                 else {
-                    break;
+                    //We do not want it to automatically break just because there is not a piece there
+                    //this would be when we run into a piece
+                    //must change to i and col
+                    if (MainCLI.board[i][col].p != null && MainCLI.board[i][col].p.type != PieceType.NONE) {
+                        break;
+                        //need to wrap this because i want to avoid a null pointer error
+                    }
+                    //break;
                 }
             }
         }
@@ -86,7 +105,11 @@ public class Rook extends Piece {
                 }
                 //we found a different type of piece and we cannot jump over it because this is a rook
                 else {
-                    break;
+
+                    if (MainCLI.board[row][i].p != null && MainCLI.board[row][i].p.type != PieceType.NONE) {
+                        break;
+                    }
+
                 }
             }
         }
@@ -106,7 +129,9 @@ public class Rook extends Piece {
                 }
                 //we found a different type of piece and we cannot jump over it because this is a rook
                 else {
-                    break;
+                    if (MainCLI.board[row][i].p != null && MainCLI.board[row][i].p.type != PieceType.NONE) {
+                        break;
+                    }
                 }
             }
         }
