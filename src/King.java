@@ -24,6 +24,12 @@ public class King extends Piece {
                 }
             }
         }
+        else {
+            if (MainCLI.board[row][col].p != null && MainCLI.board[row][col].p.type != PieceType.NONE) {
+                return null;
+                //need to wrap this because i want to avoid a null pointer error
+            }
+        }
 
         //off of the top edge of the board
         if(row > 0) {
@@ -195,12 +201,12 @@ public class King extends Piece {
         //up
         if (row >= 2) {
             if (col > 0) {
-                if (MainCLI.board[row - 2][col - 1].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color != color) {
+                if (MainCLI.board[row - 2][col - 1].p.type == PieceType.KNIGHT && MainCLI.board[row - 2][col - 1].p.color != color) {
                     return true;
                 }
             }
             if(col < 7) {
-                if (MainCLI.board[row - 2][col + 1].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color != color) {
+                if (MainCLI.board[row - 2][col + 1].p.type == PieceType.KNIGHT && MainCLI.board[row - 2][col + 1].p.color != color) {
                     return true;
                 }
             }
@@ -210,13 +216,13 @@ public class King extends Piece {
         if (row <= 5) {
             if (col > 0) {
 
-                if (MainCLI.board[row + 2][col - 1].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color != color) {
+                if (MainCLI.board[row + 2][col - 1].p.type == PieceType.KNIGHT && MainCLI.board[row + 2][col - 1].p.color != color) {
                     return true;
                 }
 
             }
             if(col < 7) {
-                if (MainCLI.board[row + 2][col + 1].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color != color) {
+                if (MainCLI.board[row + 2][col + 1].p.type == PieceType.KNIGHT && MainCLI.board[row + 2][col + 1].p.color != color) {
                     return true;
                 }
             }
@@ -225,12 +231,12 @@ public class King extends Piece {
         //left
         if (col >= 2) {
             if (row > 0) {
-                if (MainCLI.board[row - 1][col - 2].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color != color) {
+                if (MainCLI.board[row - 1][col - 2].p.type == PieceType.KNIGHT && MainCLI.board[row - 1][col - 2].p.color != color) {
                     return true;
                 }
             }
             if(row < 7) {
-                if (MainCLI.board[row + 1][col - 2].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color != color) {
+                if (MainCLI.board[row + 1][col - 2].p.type == PieceType.KNIGHT && MainCLI.board[row + 1][col - 2].p.color != color) {
                     return true;
                 }
             }
@@ -239,12 +245,12 @@ public class King extends Piece {
         //right
         if (col <= 5) {
             if (row > 0) {
-                if (MainCLI.board[row - 1][col + 2].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color != color) {
+                if (MainCLI.board[row - 1][col + 2].p.type == PieceType.KNIGHT && MainCLI.board[row - 1][col + 2].p.color != color) {
                     return true;
                 }
             }
             if(row < 7) {
-                if (MainCLI.board[row + 1][col + 2].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color != color) {
+                if (MainCLI.board[row + 1][col + 2].p.type == PieceType.KNIGHT && MainCLI.board[row + 1][col + 2].p.color != color) {
                     return true;
                 }
             }

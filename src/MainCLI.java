@@ -50,6 +50,8 @@ public class MainCLI {
         while(!gameOver) {
             printBoard();
 
+
+
             Scanner input = new Scanner(System.in);
 
             //white's move
@@ -70,6 +72,9 @@ public class MainCLI {
                 boolean captures = false;
                 int[] squareCoordinates = new int[2];
                 int[] pieceCoordinates = new int[2];
+
+                //reset them every time
+                pieceCoordinates = null;
 
                 if (notationCheck.contains("takes")) {
                     captures = true;
