@@ -12,7 +12,8 @@ public class Knight extends Piece {
 
         if (captures) {
             //no piece there
-            if (MainCLI.board[row][col].p == null) {
+            //TODO: add this everywhere... with the piece type being none
+            if (MainCLI.board[row][col].p == null || MainCLI.board[row][col].p.type == PieceType.NONE) {
                 return null;
                 //need to wrap this because i want to avoid a null pointer error
             }
@@ -23,18 +24,26 @@ public class Knight extends Piece {
                 }
             }
         }
+        //make sure we are not trying to capture a piece when we are not capturing...s
+        //TODO: add this everywehre where we make sure you cant move onto a piece by not capturing...
+        else {
+            if (MainCLI.board[row][col].p != null && MainCLI.board[row][col].p.type != PieceType.NONE) {
+                return null;
+                //need to wrap this because i want to avoid a null pointer error
+            }
+        }
 
         //up
         if (row >= 2) {
             if (col > 0) {
-                if (MainCLI.board[row - 2][col - 1].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color == color) {
+                if (MainCLI.board[row - 2][col - 1].p.type == PieceType.KNIGHT && MainCLI.board[row - 2][col - 1].p.color == color) {
                     pieceCoordinates[0] = row - 2;
                     pieceCoordinates[1] = col - 1;
                     return pieceCoordinates;
                 }
             }
             if(col < 7) {
-                if (MainCLI.board[row - 2][col + 1].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color == color) {
+                if (MainCLI.board[row - 2][col + 1].p.type == PieceType.KNIGHT && MainCLI.board[row - 2][col + 1].p.color == color) {
                     pieceCoordinates[0] = row - 2;
                     pieceCoordinates[1] = col + 1;
                     return pieceCoordinates;
@@ -46,7 +55,7 @@ public class Knight extends Piece {
         if (row <= 5) {
             if (col > 0) {
 
-                if (MainCLI.board[row + 2][col - 1].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color == color) {
+                if (MainCLI.board[row + 2][col - 1].p.type == PieceType.KNIGHT && MainCLI.board[row + 2][col - 1].p.color == color) {
                     pieceCoordinates[0] = row + 2;
                     pieceCoordinates[1] = col - 1;
                     return pieceCoordinates;
@@ -54,7 +63,7 @@ public class Knight extends Piece {
 
             }
             if(col < 7) {
-                if (MainCLI.board[row + 2][col + 1].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color == color) {
+                if (MainCLI.board[row + 2][col + 1].p.type == PieceType.KNIGHT && MainCLI.board[row + 2][col + 1].p.color == color) {
                     pieceCoordinates[0] = row + 2;
                     pieceCoordinates[1] = col + 1;
                     return pieceCoordinates;
@@ -65,14 +74,14 @@ public class Knight extends Piece {
         //left
         if (col >= 2) {
             if (row > 0) {
-                if (MainCLI.board[row - 1][col - 2].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color == color) {
+                if (MainCLI.board[row - 1][col - 2].p.type == PieceType.KNIGHT && MainCLI.board[row - 1][col - 2].p.color == color) {
                     pieceCoordinates[0] = row - 1;
                     pieceCoordinates[1] = col - 2;
                     return pieceCoordinates;
                 }
             }
             if(row < 7) {
-                if (MainCLI.board[row + 1][col - 2].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color == color) {
+                if (MainCLI.board[row + 1][col - 2].p.type == PieceType.KNIGHT && MainCLI.board[row + 1][col - 2].p.color == color) {
                     pieceCoordinates[0] = row + 1;
                     pieceCoordinates[1] = col - 2;
                     return pieceCoordinates;
@@ -83,14 +92,14 @@ public class Knight extends Piece {
         //right
         if (col <= 5) {
             if (row > 0) {
-                if (MainCLI.board[row - 1][col + 2].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color == color) {
+                if (MainCLI.board[row - 1][col + 2].p.type == PieceType.KNIGHT && MainCLI.board[row - 1][col + 2].p.color == color) {
                     pieceCoordinates[0] = row - 1;
                     pieceCoordinates[1] = col + 2;
                     return pieceCoordinates;
                 }
             }
             if(row < 7) {
-                if (MainCLI.board[row + 1][col + 2].p.type == PieceType.KNIGHT && MainCLI.board[row][col].p.color == color) {
+                if (MainCLI.board[row + 1][col + 2].p.type == PieceType.KNIGHT && MainCLI.board[row + 1][col + 2].p.color == color) {
                     pieceCoordinates[0] = row + 1;
                     pieceCoordinates[1] = col + 2;
                     return pieceCoordinates;

@@ -163,7 +163,6 @@ public class MainCLI {
                     if (move.length() == 3) {
                         //TODO: NF3 - CHAR AT IS GETTING THE CHARACTER AT THAT POINT
                         squareCoordinates = convertMoveToSquare(move.charAt(1), Character.getNumericValue(move.charAt(2)));
-
                     }
 
                     //Bxf4

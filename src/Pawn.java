@@ -11,6 +11,13 @@ public class Pawn extends Piece {
 
     @Override
     int[] isValidMove(int row, int col, PieceColor color, boolean captures) {
+
+        //make sure we are trying not to capture a piece that we should not be...
+        if (MainCLI.board[row][col].p != null && MainCLI.board[row][col].p.type != PieceType.NONE) {
+            return null;
+            //need to wrap this because i want to avoid a null pointer error
+        }
+
         int[] pieceCoordinates = new int[2];
 
         //COULD JUST CHECK IF THE PAWN IS ON 2ND RANK??? - THERE SHOULD BE A WAY TO HAVE AN ATTRIBUTE THO...
@@ -58,7 +65,7 @@ public class Pawn extends Piece {
         int[] pieceCoordinates = new int[2];
         int pieceColValue = 0;
 
-        if (MainCLI.board[row][col].p == null) {
+        if (MainCLI.board[row][col].p == null || MainCLI.board[row][col].p.type == PieceType.NONE) {
             return null;
             //need to wrap this because i want to avoid a null pointer error
         }
