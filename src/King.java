@@ -4,6 +4,8 @@ public class King extends Piece {
         super(color, PieceType.KING);
     }
 
+    //TODO: have to fix all of the errors in this class - mainly with bishop and rook and queen things
+
     @Override
     int[] isValidMove(int row, int col, PieceColor color, boolean captures) {
 
@@ -132,7 +134,7 @@ public class King extends Piece {
                 break;
             }
             //empty square
-            if (MainCLI.board[i][col].p != null) {
+            if (MainCLI.board[i][col].p != null && MainCLI.board[i][col].p.type != PieceType.NONE) {
                 if ((MainCLI.board[i][col].p.type == PieceType.ROOK || MainCLI.board[i][col].p.type == PieceType.QUEEN) && MainCLI.board[i][col].p.color != color) {
                     return true;
                 }
@@ -149,11 +151,14 @@ public class King extends Piece {
             if (row + 1 > 7) {
                 break;
             }
-            if (MainCLI.board[i][col].p != null) {
-                if ((MainCLI.board[i][col].p.type == PieceType.ROOK || MainCLI.board[i][col].p.type == PieceType.QUEEN)&& MainCLI.board[i][col].p.color != color) {
+
+            //this checks to make sure that the piece type is not none or null (there is a piece there)
+            //then we check to make sure it is of the opposite color
+            if (MainCLI.board[i][col].p != null && MainCLI.board[i][col].p.type != PieceType.NONE) {
+                if ((MainCLI.board[i][col].p.type == PieceType.ROOK || MainCLI.board[i][col].p.type == PieceType.QUEEN) && MainCLI.board[i][col].p.color != color) {
                     return true;
                 }
-                //we found a different type of piece and we cannot jump over it because this is a rook
+                //TODO: check that we cant jump over pieces but have to check correctly...
                 else {
                     break;
                 }
@@ -167,7 +172,7 @@ public class King extends Piece {
                 break;
             }
 
-            if (MainCLI.board[row][i].p != null) {
+            if (MainCLI.board[row][i].p != null && MainCLI.board[row][i].p.type != PieceType.NONE) {
                 if ((MainCLI.board[row][i].p.type == PieceType.ROOK || MainCLI.board[row][i].p.type == PieceType.QUEEN) && MainCLI.board[row][i].p.color != color) {
                     return true;
                 }
@@ -185,7 +190,7 @@ public class King extends Piece {
                 break;
             }
 
-            if (MainCLI.board[row][i].p != null) {
+            if (MainCLI.board[row][i].p != null && MainCLI.board[row][i].p.type != PieceType.NONE) {
                 if ((MainCLI.board[row][i].p.type == PieceType.ROOK || MainCLI.board[row][i].p.type == PieceType.QUEEN) && MainCLI.board[row][i].p.color != color) {
                     return true;
                 }
@@ -272,10 +277,10 @@ public class King extends Piece {
                 }
 
                 //if not an empty square
-                if (MainCLI.board[i][col].p != null) {
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
 
                     //the piece type matches and the color matches the piece we are moving
-                    if ((MainCLI.board[i][col].p.type == PieceType.BISHOP || MainCLI.board[i][col].p.type == PieceType.QUEEN) && MainCLI.board[i][col].p.color != color) {
+                    if ((MainCLI.board[i][j].p.type == PieceType.BISHOP || MainCLI.board[i][j].p.type == PieceType.QUEEN) && MainCLI.board[i][j].p.color != color) {
                         return true;
                     }
                     //we found a different type of piece and we cannot jump over it because this is a rook
@@ -299,10 +304,10 @@ public class King extends Piece {
                 }
 
                 //if not an empty square
-                if (MainCLI.board[i][col].p != null) {
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
 
                     //the piece type matches and the color matches the piece we are moving
-                    if ((MainCLI.board[i][col].p.type == PieceType.BISHOP || MainCLI.board[i][col].p.type == PieceType.QUEEN) && MainCLI.board[i][col].p.color != color) {
+                    if ((MainCLI.board[i][j].p.type == PieceType.BISHOP || MainCLI.board[i][j].p.type == PieceType.QUEEN) && MainCLI.board[i][j].p.color != color) {
                         return true;
                     }
                     //we found a different type of piece and we cannot jump over it because this is a rook
@@ -325,10 +330,10 @@ public class King extends Piece {
                 }
 
                 //if not an empty square
-                if (MainCLI.board[i][col].p != null) {
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
 
                     //the piece type matches and the color matches the piece we are moving
-                    if ((MainCLI.board[i][col].p.type == PieceType.BISHOP || MainCLI.board[i][col].p.type == PieceType.QUEEN) && MainCLI.board[i][col].p.color != color) {
+                    if ((MainCLI.board[i][j].p.type == PieceType.BISHOP || MainCLI.board[i][j].p.type == PieceType.QUEEN) && MainCLI.board[i][j].p.color != color) {
                         return true;
                     }
                     //we found a different type of piece and we cannot jump over it because this is a rook
@@ -351,10 +356,10 @@ public class King extends Piece {
                 }
 
                 //if not an empty square
-                if (MainCLI.board[i][col].p != null) {
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
 
                     //the piece type matches and the color matches the piece we are moving
-                    if ((MainCLI.board[i][col].p.type == PieceType.BISHOP || MainCLI.board[i][col].p.type == PieceType.QUEEN) && MainCLI.board[i][col].p.color != color) {
+                    if ((MainCLI.board[i][j].p.type == PieceType.BISHOP || MainCLI.board[i][j].p.type == PieceType.QUEEN) && MainCLI.board[i][j].p.color != color) {
                         return true;
                     }
                     //we found a different type of piece and we cannot jump over it because this is a rook
@@ -399,6 +404,403 @@ public class King extends Piece {
 
         return false;
     }
+
+    //going to return a row, col for where the piece is...
+    //then see if square is in check...
+    //TODO: NEED TO CHECK IF THE KING CAN TAKE A PIECE TOO
+    int[] checkPiece(int row, int col, PieceColor color) {
+        int[] pieceCoordinates = new int[2];
+
+
+        //<---------------------------------------HORIZONTAL/VERTICAL---------------------------------------->
+        //back up the board...
+        for(int i = row - 1; i >= 0; i--) {
+
+            if (row - 1 < 0) {
+                break;
+            }
+            //empty square
+            if (MainCLI.board[i][col].p != null && MainCLI.board[i][col].p.type != PieceType.NONE) {
+                if ((MainCLI.board[i][col].p.type == PieceType.ROOK || MainCLI.board[i][col].p.type == PieceType.QUEEN) && MainCLI.board[i][col].p.color != color) {
+                    pieceCoordinates[0] = i;
+                    pieceCoordinates[1] = col;
+                    return pieceCoordinates;
+                }
+                //we found a different type of piece and we cannot jump over it because this is a rook
+                else {
+                    break;
+                }
+            }
+        }
+
+        //down the board
+        for (int i = row + 1; i < 8; i++) {
+
+            if (row + 1 > 7) {
+                break;
+            }
+            if (MainCLI.board[i][col].p != null && MainCLI.board[i][col].p.type != PieceType.NONE) {
+                if ((MainCLI.board[i][col].p.type == PieceType.ROOK || MainCLI.board[i][col].p.type == PieceType.QUEEN)&& MainCLI.board[i][col].p.color != color) {
+                    pieceCoordinates[0] = i;
+                    pieceCoordinates[1] = col;
+                    return pieceCoordinates;
+                }
+                //we found a different type of piece and we cannot jump over it because this is a rook
+                else {
+                    break;
+                }
+            }
+        }
+
+        //to the left
+        for (int i = col - 1; i >= 0; i--) {
+
+            if (col - 1 < 0) {
+                break;
+            }
+
+            if (MainCLI.board[row][i].p != null && MainCLI.board[row][i].p.type != PieceType.NONE) {
+                if ((MainCLI.board[row][i].p.type == PieceType.ROOK || MainCLI.board[row][i].p.type == PieceType.QUEEN) && MainCLI.board[row][i].p.color != color) {
+                    pieceCoordinates[0] = row;
+                    pieceCoordinates[1] = i;
+                    return pieceCoordinates;
+                }
+                //we found a different type of piece and we cannot jump over it because this is a rook
+                else {
+                    break;
+                }
+            }
+        }
+
+        // to the right
+        for (int i = col + 1; i < 8; i++) {
+
+            if (col + 1 > 7) {
+                break;
+            }
+
+            if (MainCLI.board[row][i].p != null && MainCLI.board[row][i].p.type != PieceType.NONE) {
+                if ((MainCLI.board[row][i].p.type == PieceType.ROOK || MainCLI.board[row][i].p.type == PieceType.QUEEN) && MainCLI.board[row][i].p.color != color) {
+                    pieceCoordinates[0] = row;
+                    pieceCoordinates[1] = i;
+                    return pieceCoordinates;
+                }
+                //we found a different type of piece and we cannot jump over it because this is a rook
+                else {
+                    break;
+                }
+            }
+        }
+        //<---------------------------------------HORIZONTAL/VERTICAL---------------------------------------->
+
+        //<---------------------------------KNIGHT-------------------------------------------->
+        //up
+        if (row >= 2) {
+            if (col > 0) {
+                if (MainCLI.board[row - 2][col - 1].p.type == PieceType.KNIGHT && MainCLI.board[row - 2][col - 1].p.color != color) {
+                    pieceCoordinates[0] = row - 2;
+                    pieceCoordinates[1] = col - 1;
+                    return pieceCoordinates;
+                }
+            }
+            if(col < 7) {
+                if (MainCLI.board[row - 2][col + 1].p.type == PieceType.KNIGHT && MainCLI.board[row - 2][col + 1].p.color != color) {
+                    pieceCoordinates[0] = row - 2;
+                    pieceCoordinates[1] = col + 1;
+                    return pieceCoordinates;
+                }
+            }
+        }
+
+        //down
+        if (row <= 5) {
+            if (col > 0) {
+
+                if (MainCLI.board[row + 2][col - 1].p.type == PieceType.KNIGHT && MainCLI.board[row + 2][col - 1].p.color != color) {
+                    pieceCoordinates[0] = row + 2;
+                    pieceCoordinates[1] = col - 1;
+                    return pieceCoordinates;
+                }
+
+            }
+            if(col < 7) {
+                if (MainCLI.board[row + 2][col + 1].p.type == PieceType.KNIGHT && MainCLI.board[row + 2][col + 1].p.color != color) {
+                    pieceCoordinates[0] = row + 2;
+                    pieceCoordinates[1] = col + 1;
+                    return pieceCoordinates;
+                }
+            }
+        }
+
+        //left
+        if (col >= 2) {
+            if (row > 0) {
+                if (MainCLI.board[row - 1][col - 2].p.type == PieceType.KNIGHT && MainCLI.board[row - 1][col - 2].p.color != color) {
+                    pieceCoordinates[0] = row - 1;
+                    pieceCoordinates[1] = col - 2;
+                    return pieceCoordinates;
+                }
+            }
+            if(row < 7) {
+                if (MainCLI.board[row + 1][col - 2].p.type == PieceType.KNIGHT && MainCLI.board[row + 1][col - 2].p.color != color) {
+                    pieceCoordinates[0] = row + 1;
+                    pieceCoordinates[1] = col - 2;
+                    return pieceCoordinates;
+                }
+            }
+        }
+
+        //right
+        if (col <= 5) {
+            if (row > 0) {
+                if (MainCLI.board[row - 1][col + 2].p.type == PieceType.KNIGHT && MainCLI.board[row - 1][col + 2].p.color != color) {
+                    pieceCoordinates[0] = row - 1;
+                    pieceCoordinates[1] = col + 2;
+                    return pieceCoordinates;
+                }
+            }
+            if(row < 7) {
+                if (MainCLI.board[row + 1][col + 2].p.type == PieceType.KNIGHT && MainCLI.board[row + 1][col + 2].p.color != color) {
+                    pieceCoordinates[0] = row + 1;
+                    pieceCoordinates[1] = col + 2;
+                    return pieceCoordinates;
+                }
+            }
+        }
+
+        //<----------------------KNIGHT------------------------------------------------->>>>>>
+
+
+        //<-------------------------DIAGONAL--------------------------------------------->
+        //row - 1, col -1. up left
+        if (row - 1 >= 0 && col - 1 >= 0) {
+            int j = col - 1;
+
+            for(int i = row - 1; i >= 0; i--) {
+                //error checking
+
+                if (j < 0) {
+                    break;
+                }
+
+                //if not an empty square
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
+
+                    //the piece type matches and the color matches the piece we are moving
+                    if ((MainCLI.board[i][j].p.type == PieceType.BISHOP || MainCLI.board[i][j].p.type == PieceType.QUEEN) && MainCLI.board[i][j].p.color != color) {
+                        pieceCoordinates[0] = i;
+                        pieceCoordinates[1] = j;
+                        return pieceCoordinates;
+                    }
+                    //we found a different type of piece and we cannot jump over it because this is a rook
+                    else {
+                        break;
+                    }
+                }
+                j--;
+            }
+
+        }
+
+        //row - 1 col + 1. up right
+        if (row - 1 >= 0 && col + 1 < 8) {
+            int j = col + 1;
+
+            for(int i = row - 1; i >= 0; i--) {
+
+                if (j > 7) {
+                    break;
+                }
+
+                //if not an empty square
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
+
+                    //the piece type matches and the color matches the piece we are moving
+                    if ((MainCLI.board[i][j].p.type == PieceType.BISHOP || MainCLI.board[i][j].p.type == PieceType.QUEEN) && MainCLI.board[i][j].p.color != color) {
+                        pieceCoordinates[0] = i;
+                        pieceCoordinates[1] = j;
+                        return pieceCoordinates;
+                    }
+                    //we found a different type of piece and we cannot jump over it because this is a rook
+                    else {
+                        break;
+                    }
+                }
+                j++;
+            }
+        }
+
+        //row + 1, col - 1. down left
+        if (row + 1 < 8 && col - 1 >= 0) {
+            int j = col - 1;
+
+            for(int i = row + 1; i < 8; i++) {
+
+                if (j < 0) {
+                    break;
+                }
+
+                //if not an empty square
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
+
+                    //the piece type matches and the color matches the piece we are moving
+                    if ((MainCLI.board[i][j].p.type == PieceType.BISHOP || MainCLI.board[i][j].p.type == PieceType.QUEEN) && MainCLI.board[i][j].p.color != color) {
+                        pieceCoordinates[0] = i;
+                        pieceCoordinates[1] = j;
+                        return pieceCoordinates;
+                    }
+                    //we found a different type of piece and we cannot jump over it because this is a rook
+                    else {
+                        break;
+                    }
+                }
+                j--;
+            }
+        }
+
+        //row + 1, col + 1. down right
+        if (row + 1 < 8 && col + 1 < 8) {
+            int j = col + 1;
+
+            for(int i = row + 1; i < 8; i++) {
+
+                if (j > 7) {
+                    break;
+                }
+
+                //if not an empty square
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
+
+                    //the piece type matches and the color matches the piece we are moving
+                    if ((MainCLI.board[i][j].p.type == PieceType.BISHOP || MainCLI.board[i][j].p.type == PieceType.QUEEN) && MainCLI.board[i][j].p.color != color) {
+                        pieceCoordinates[0] = i;
+                        pieceCoordinates[1] = j;
+                        return pieceCoordinates;
+                    }
+                    //we found a different type of piece and we cannot jump over it because this is a rook
+                    else {
+                        break;
+                    }
+                }
+                j++;
+            }
+        }
+        //<-------------------------DIAGONAL--------------------------------------------->
+
+        //PAWN - opposites because check
+        if (color == PieceColor.BLACK) {
+            //value needs to be one more or one less to be able to capture as a pawn
+            //plus because down the board
+            if (row < 7 && col > 0) {
+                if (MainCLI.board[row + 1][col - 1].p.type == PieceType.PAWN && MainCLI.board[row + 1][col - 1].p.color == PieceColor.WHITE) {
+                    pieceCoordinates[0] = row + 1;
+                    pieceCoordinates[1] = col - 1;
+                    return pieceCoordinates;
+                }
+            }
+
+            if (row < 7 && col < 7) {
+                if (MainCLI.board[row + 1][col + 1].p.type == PieceType.PAWN && MainCLI.board[row + 1][col + 1].p.color == PieceColor.WHITE) {
+                    pieceCoordinates[0] = row + 1;
+                    pieceCoordinates[1] = col + 1;
+                    return pieceCoordinates;
+                }
+            }
+        }
+        else if (color == PieceColor.WHITE) {
+            if (row > 0 && col > 0) {
+                if (MainCLI.board[row - 1][col - 1].p.type == PieceType.PAWN && MainCLI.board[row - 1][col - 1].p.color == PieceColor.BLACK) {
+                    pieceCoordinates[0] = row - 1;
+                    pieceCoordinates[1] = col - 1;
+                    return pieceCoordinates;
+                }
+            }
+
+            if (row > 0 && col < 7) {
+                if (MainCLI.board[row - 1][col + 1].p.type == PieceType.PAWN && MainCLI.board[row - 1][col + 1].p.color == PieceColor.BLACK) {
+                    pieceCoordinates[0] = row - 1;
+                    pieceCoordinates[1] = col + 1;
+                    return pieceCoordinates;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    boolean canMove(int row, int col, PieceColor color) {
+        //have to check if the king can move
+        //write a can move function, is there a square that is NOT empty, not in check, around the king
+        //use current check function - write it in the king class.
+
+        //off of the top edge of the board
+        if(row > 0) {
+
+            //top left
+            if (col > 0) {
+                //checks if there is not a piece there and that the square is not in check
+                if (MainCLI.board[row - 1][col - 1].p.type == PieceType.NONE && !check(row - 1, col - 1, color)) { //MainCLI.board[row - 1][col - 1].p.color == color) {
+                    return true;
+                }
+            }
+
+            //top middle
+            if (MainCLI.board[row - 1][col].p.type == PieceType.NONE && !check(row - 1, col, color)) { //MainCLI.board[row - 1][col - 1].p.color == color) {
+                return true;
+            }
+
+            if (col < 7) {
+                //top right
+                if (MainCLI.board[row - 1][col + 1].p.type == PieceType.NONE && !check(row - 1, col + 1, color)) { //MainCLI.board[row - 1][col - 1].p.color == color) {
+                    return true;
+                }
+            }
+
+
+        }
+
+        //off the left edge of the board
+        if(col > 0) {
+            //middle left
+            if (MainCLI.board[row][col - 1].p.type == PieceType.NONE && !check(row, col - 1, color)) { //MainCLI.board[row - 1][col - 1].p.color == color) {
+                return true;
+            }
+        }
+
+        //off the right edge of the board
+        if(col < 7) {
+            //middle right
+            if (MainCLI.board[row][col + 1].p.type == PieceType.NONE && !check(row, col + 1, color)) { //MainCLI.board[row - 1][col - 1].p.color == color) {
+                return true;
+            }
+        }
+
+        //off the bottom edge of the board
+        if(row < 7) {
+
+            if (col > 0) {
+                //bottom left
+                if (MainCLI.board[row + 1][col - 1].p.type == PieceType.NONE && !check(row + 1, col - 1, color)) { //MainCLI.board[row - 1][col - 1].p.color == color) {
+                    return true;
+                }
+            }
+
+            //bottom middle
+            if (MainCLI.board[row + 1][col].p.type == PieceType.NONE && !check(row + 1, col, color)) { //MainCLI.board[row - 1][col - 1].p.color == color) {
+                return true;
+            }
+
+            if (col < 7) {
+                //bottom right
+                if (MainCLI.board[row + 1][col + 1].p.type == PieceType.NONE && !check(row + 1, col + 1, color)) { //MainCLI.board[row - 1][col - 1].p.color == color) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 
 }
 
