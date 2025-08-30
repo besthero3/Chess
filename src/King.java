@@ -7,6 +7,7 @@ public class King extends Piece {
     //TODO: have to fix all of the errors in this class - mainly with bishop and rook and queen things
 
     @Override
+    //TODO: SHOULD CHECK IF NOT IN CHECK?
     int[] isValidMove(int row, int col, PieceColor color, boolean captures) {
 
         int[] pieceCoordinates = new int[2];
@@ -800,6 +801,187 @@ public class King extends Piece {
 
         return false;
     }
+
+    //checks is our move gets us out of a check by capturing
+    //pre: the move has already been validated
+    //only thing it has not been validated for is if the move causes a check...
+    boolean captureOutOfCheck(int moveRow, int moveCol, PieceType movePieceType, int checkPieceRow, int checkPieceCol, PieceColor color) {
+
+        //can simply call is valid for each of these I think
+        //could also compare rows and columns, not the same type of logic as is valid i dont think
+        if (moveRow == checkPieceRow && moveCol == checkPieceCol) {
+            return true;
+        }
+        return false;
+    }
+
+    boolean moveOutOfCheck(int moveRow, int moveCol, PieceColor color) {
+        //if that square is in check then we can't move out of it
+        return !(check(moveRow, moveCol, color));
+    }
+
+    //does our move block check
+    boolean blockCheck(int checkingPieceRow, int checkingPieceCol, PieceColor checkingPieceColor,
+                       PieceType checkingPieceType, int blockingSquareRow, int blockingSquareCol, int movingPieceRow,
+                       int movingPieceCol, PieceType movingPieceType, PieceColor movingPieceColor, int kingRow, int kingCol) {
+
+        //prelim checking
+        if(checkingPieceType == PieceType.PAWN || checkingPieceType == PieceType.KNIGHT || movingPieceType == PieceType.KING) {
+            return false;
+        }
+
+        boolean rookQueen = false;
+        boolean bishopQueen = false;
+        if (checkingPieceType == PieceType.QUEEN) {
+            //same row or col with a queen having check means has to be horizontal or vertical
+            if (checkingPieceRow == kingRow || checkingPieceCol == kingCol) {
+                rookQueen = true;
+            }
+            else {
+                bishopQueen = true;
+            }
+        }
+
+        if (checkingPieceType == PieceType.ROOK || rookQueen) {
+            //now we need to compare things:
+            //below the king
+            if (checkingPieceRow > kingRow) {
+                //precondition is that this move is fine I'm pretty sure...
+                if (blockingSquareCol == kingCol && (blockingSquareRow < checkingPieceRow && blockingSquareRow > kingRow)) {
+                    return true;
+                }
+            }
+            //above the King
+            else if (checkingPieceRow < kingRow) {
+                if (blockingSquareCol == kingCol && (blockingSquareRow > checkingPieceRow && blockingSquareRow < kingRow)) {
+                    return true;
+                }
+            }
+            //same row
+            //different cols
+            //to the right
+            else if (checkingPieceCol > kingCol) {
+                if (blockingSquareRow == kingRow && (blockingSquareCol < checkingPieceCol && blockingSquareCol > kingCol)) {
+                    return true;
+                }
+            }
+            //to the left
+            else if (checkingPieceCol < kingCol) {
+                if (blockingSquareRow == kingRow && (blockingSquareCol > checkingPieceCol && blockingSquareCol < kingCol)) {
+                    return true;
+                }
+            }
+
+
+        }
+        else if (checkingPieceType == PieceType.BISHOP || bishopQueen) {
+            //do four quadrents bc we know its check
+            //have to figure out how to do the inbetween
+            //has to be an equal amount between the squares
+            //like + i for both or smth... calc the difference and iterate?
+
+            //bottom right of king in terms of diags
+            if (checkingPieceRow > kingRow && checkingPieceCol > kingCol) {
+
+                int j = checkingPieceCol + 1;
+                //starts on square diagnol bottom right of king
+                for(int i = kingRow + 1; i < checkingPieceRow; i++) {
+
+                    if (blockingSquareRow == i && blockingSquareCol == j) {
+                        return true;
+                    }
+
+                    if (j == checkingPieceCol || j >= 7 || i >= 7) {
+                        return false;
+                    }
+                    j++;
+                }
+            }
+            //top left of king in terms of diags
+            else if (checkingPieceRow < kingRow && checkingPieceCol < kingCol) {
+
+                int j = checkingPieceCol - 1;
+                //starts on square diagnol top left of king
+                for(int i = kingRow - 1; i > checkingPieceRow; i--) {
+
+                    if (blockingSquareRow == i && blockingSquareCol == j) {
+                        return true;
+                    }
+
+                    if (j == checkingPieceCol || j <= 0 || i <= 0) {
+                        return false;
+                    }
+                    j--;
+                }
+            }
+            //top right of king in terms of diags
+            // col >
+            //row <
+            else if (checkingPieceRow < kingRow && checkingPieceCol > kingCol) {
+
+                int j = checkingPieceCol + 1;
+                //starts on square diagnol bottom right of king
+                for(int i = kingRow - 1; i > checkingPieceRow; i--) {
+
+                    if (blockingSquareRow == i && blockingSquareCol == j) {
+                        return true;
+                    }
+
+                    if (j == checkingPieceCol || j >= 7 || i <= 0) {
+                        return false;
+                    }
+                    j++;
+                }
+            }
+            //bottom left
+            //row >
+            //col <
+            else if (checkingPieceRow > kingRow && checkingPieceCol < kingCol) {
+
+                int j = checkingPieceCol - 1;
+                //starts on square diagnol top left of king
+                for(int i = kingRow + 1; i < checkingPieceRow; i++) {
+
+                    if (blockingSquareRow == i && blockingSquareCol == j) {
+                        return true;
+                    }
+
+                    if (j == checkingPieceCol || j <= 0 || i >= 7) {
+                        return false;
+                    }
+                    j--;
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+    /*
+    * if (movePieceType == PieceType.ROOK) {
+
+        }
+        else if (movePieceType == PieceType.KNIGHT) {
+
+        }
+        else if (movePieceType == PieceType.BISHOP) {
+
+        }
+        else if (movePieceType == PieceType.QUEEN) {
+
+        }
+        else if (movePieceType == PieceType.KING) {
+
+        }
+        else if (movePieceType == PieceType.PAWN) {
+
+        }
+    *
+    *
+    *
+    *
+    * */
 
 
 }

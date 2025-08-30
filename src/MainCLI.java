@@ -31,6 +31,8 @@ public class MainCLI {
 
     public static void main(String[] args) {
 
+        //right now this does column length then row length
+        //board[0] is number of columns
         for(int row = 0; row < board[0].length; row++) {
 
             for (int col = 0; col < board.length; col++) {
@@ -49,7 +51,6 @@ public class MainCLI {
 
         while(!gameOver) {
             printBoard();
-            currentInCheck = false;
 
 
 
@@ -351,8 +352,64 @@ public class MainCLI {
                         //TODO: THIS IS NOT USING THE BOARD WITH THE MOVE ON IT...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         currentInCheck = finalKingWhite.check(whiteKingPosition[0], whiteKingPosition[1], PieceColor.WHITE);
 
+                        if (currentInCheck) { //in check - make sure move gets out of check
+
+                            //get the checking piece first
+                            int[] checkingPieceCoordinates = finalKingWhite.checkPiece(whiteKingPosition[0], whiteKingPosition[1], PieceColor.WHITE);
+                            PieceType checkingPieceType = board[checkingPieceCoordinates[0]][checkingPieceCoordinates[1]].p.type;
+                            PieceColor checkingPieceColor = board[checkingPieceCoordinates[0]][checkingPieceCoordinates[1]].p.color;
+                            //checkingPieceType = PieceType.KNIGHT;
+
+                            PieceType movingPieceType = board[pieceCoordinates[0]][pieceCoordinates[1]].p.type;
+
+                            //Pass in checking piece coordinates... then check if any of the moves match our move?
+                            //pass in our move with the type of piece as well...
+                            //pass in black
+                            //pass in square coordinates that the piece is moving to...
+                            boolean captureCheckingPiece = finalKingWhite.captureOutOfCheck(squareCoordinates[0], squareCoordinates[1], movingPieceType, checkingPieceCoordinates[0], checkingPieceCoordinates[1], PieceColor.WHITE);
+
+                            boolean moveKing = false;
+                            //our move does not capture the checking piece
+                            if (!captureCheckingPiece) {
+                                if (movingPieceType == PieceType.KING) {
+                                    //then can move the king
+                                    //TODO: just have to check if the square coordinates are in check...
+                                    //TODO: if they are - not a valid move - if not then its valid...
+                                    //pass the piece in
+                                    moveKing = finalKingWhite.moveOutOfCheck(squareCoordinates[0],squareCoordinates[1],PieceColor.WHITE);
+                                }
+                                else {
+                                    moveKing = false;
+                                }
+
+                                //can't move
+                                //can't capture
+                                //HAVE TO BLOCK
+                                if (!moveKing) {
+
+
+                                    //int checkingPieceRow, int checkingPieceCol, PieceColor checkingPieceColor,
+                                    //PieceType checkingPieceType, int blockingSquareRow, int blockingSquareCol, int movingPieceRow,
+                                    //int movingPieceCol, PieceType movingPieceType, PieceColor movingPieceColor) {
+                                    boolean block = finalKingWhite.blockCheck(checkingPieceCoordinates[0], checkingPieceCoordinates[1], checkingPieceColor,
+                                            checkingPieceType, squareCoordinates[0], squareCoordinates[1], pieceCoordinates[0], pieceCoordinates[1],
+                                            movingPieceType, PieceColor.WHITE, whiteKingPosition[0],whiteKingPosition[1]);
+
+                                    if (!block) {
+                                        //We know from the end of the execution that it is not checkmate
+                                        //we could also change the execution? think about it
+                                        //pass in check to the start and if in check then check if it is mate
+                                        validMove = false;
+                                    }
+
+                                }
+
+                                //TODO: figure out if our move blocks checks - that is the one that will need checking
+                            }
+                        }
+
                         //CHeck the board TODO!!!
-                        if (!currentInCheck) {
+                        if (!currentInCheck || (currentInCheck && validMove)) {
                             //TODO make the move
 
                             //TODO: SMTH IS WRONG WITH THE COORDINATES I THINK FOR COLUMNS - NONE ARE WORKING RIGHT
@@ -368,12 +425,12 @@ public class MainCLI {
                             }
                         }
                         //we are in check
-                        else {
+                        //else {
 
                             //check if our move is one of the valid ones?
 
-                            validMove = false;
-                        }
+                        //    validMove = false;
+                        //}
 
                         //then need to check if black king is in check so it can be recorded and the static vairbale can be changed
                         opponentCurrentInCheck = finalKingBlack.check(blackKingPosition[0], blackKingPosition[1], PieceColor.BLACK);
@@ -386,14 +443,94 @@ public class MainCLI {
 
                         currentInCheck = finalKingBlack.check(blackKingPosition[0], blackKingPosition[1], PieceColor.BLACK);
 
-                        //TODO: BIG FIX
+                        //TODO: BIG FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        //TODO: THIS IS WHERE WE CURRENTLY ARE!!!!!
+                        //check if our move gets out of check -
+                        //then check if there is a move that is possible
+                        //black is in check
+                        if (currentInCheck) { //in check - make sure move gets out of check
+
+                            //get the checking piece first
+                            int[] checkingPieceCoordinates = finalKingBlack.checkPiece(blackKingPosition[0],blackKingPosition[1],PieceColor.BLACK);
+                            PieceType checkingPieceType = board[checkingPieceCoordinates[0]][checkingPieceCoordinates[1]].p.type;
+                            PieceColor checkingPieceColor = board[checkingPieceCoordinates[0]][checkingPieceCoordinates[1]].p.color;
+                            //checkingPieceType = PieceType.KNIGHT;
+
+                            PieceType movingPieceType = board[pieceCoordinates[0]][pieceCoordinates[1]].p.type;
+
+                            //Pass in checking piece coordinates... then check if any of the moves match our move?
+                            //pass in our move with the type of piece as well...
+                            //pass in black
+                            //pass in square coordinates that the piece is moving to...
+                            boolean captureCheckingPiece = finalKingBlack.captureOutOfCheck(squareCoordinates[0], squareCoordinates[1], movingPieceType, checkingPieceCoordinates[0], checkingPieceCoordinates[1], PieceColor.BLACK);
+
+                            boolean moveKing = false;
+                            //our move does not capture the checking piece
+                            if (!captureCheckingPiece) {
+                                if (movingPieceType == PieceType.KING) {
+                                    //then can move the king
+                                    //TODO: just have to check if the square coordinates are in check...
+                                    //TODO: if they are - not a valid move - if not then its valid...
+                                    //pass the piece in
+                                    moveKing = finalKingBlack.moveOutOfCheck(squareCoordinates[0],squareCoordinates[1],PieceColor.BLACK);
+                                }
+                                else {
+                                    moveKing = false;
+                                }
+
+                                //can't move
+                                //can't capture
+                                //HAVE TO BLOCK
+                                if (!moveKing) {
+
+
+                                    //int checkingPieceRow, int checkingPieceCol, PieceColor checkingPieceColor,
+                                    //PieceType checkingPieceType, int blockingSquareRow, int blockingSquareCol, int movingPieceRow,
+                                    //int movingPieceCol, PieceType movingPieceType, PieceColor movingPieceColor) {
+                                    boolean block = finalKingBlack.blockCheck(checkingPieceCoordinates[0], checkingPieceCoordinates[1], checkingPieceColor,
+                                            checkingPieceType, squareCoordinates[0], squareCoordinates[1], pieceCoordinates[0], pieceCoordinates[1],
+                                            movingPieceType, PieceColor.BLACK, blackKingPosition[0],blackKingPosition[1]);
+
+                                    if (!block) {
+                                        //We know from the end of the execution that it is not checkmate
+                                        //we could also change the execution? think about it
+                                        //pass in check to the start and if in check then check if it is mate
+                                        validMove = false;
+                                    }
+
+                                }
+
+                                //TODO: figure out if our move blocks checks - that is the one that will need checking
+                            }
+                        }
+
                         //if current in check is true
                         //check if our move gets out of check...
                         //if it does then make the move
 
-                        //if it does not
+                        //if it does not then either declare the move invalid or declare checkmate
+                        //(how to do this):
+                        //arraylist returning coordinates of pieces, as well as type of piece???
+                        //Capturing - square moved to, piece that can capture
+                        //moving - square moved to and then we verify that the king is moving there
+                        //blocking - square moved to, piece that can move there
 
-                        if (!currentInCheck) {
+                        //functions to check if checkmate exists
+                        //these are already written partially below
+                        //Could pass in the function the type of piece to narrow down legal moves
+                        //so bishop passed in - only check legal bishop moves with the bishop... TODO
+
+                        //HAVE SAME THING AS CURRENTLY DOING BUT ADD TO IT
+                        //if opponent in check - check if they are getting mated
+                        //if they are then end the game - if they are not then let the game play on
+                        //then on the current turn do the above checks to make sure that the current person can
+                        //make a move to get out of check
+                        //this way we fix the current problem of getting out of check with checking for mate
+
+                        //TODO: MAKE SURE THIS TRIGGERS!!! EXECUTION ORDER
+                        //either we are not in check so its fine
+                        //or we are in check and need to make sure the move is valid
+                        if (!currentInCheck || (currentInCheck && validMove)) {
                             //TODO make the move!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                             ////TODO: here!!!!!!!!!!!!
@@ -409,14 +546,14 @@ public class MainCLI {
                             }
                         }
                         //we are in check
-                        else {
+                        //else {
 
                             //TODO: check if our move is one of the valid ones
                             //if it is - enable valid moves...
                             //TODO: if we are still in check then enable a still in check flag?
                             //
-                            validMove = false;
-                        }
+                            //validMove = false;
+                        //}
 
                         //then need to check if black king is in check so it can be recorded and the static vairbale can be changed
                         opponentCurrentInCheck = finalKingWhite.check(whiteKingPosition[0], whiteKingPosition[1], PieceColor.WHITE);
@@ -435,6 +572,18 @@ public class MainCLI {
                 //if valid move
                 //check if last move put king in check
                 //TODO: make sure to adjust this with variables above...
+
+                //TODO: only case where move isnt valid from recent stuff is gonna be the move not getting out of check
+
+                //TODO - SEE EXECUTION PATH OF CODE
+                //execution flow!!! - e4 f6 Qh5+
+                //other king in check above gets evaluated
+                //down here we check if the move checkmates the other king
+                //if it does - game over
+                //if it doesnt - game continues
+                //above makes sure that you get out of check - otherwise invalid move
+                //keeps evaluating moves to see if other king in checkmate
+                //TODO: mainly need to write a blcoking function and make sure everything resets in iterations...
                 if (validMove) {
                     //TODO:
                     if (opponentCurrentInCheck) {
@@ -448,7 +597,6 @@ public class MainCLI {
 
                         //white's move - then black king may be in checkmate...
                         if (whoseMove) {
-
                             checkingPieceCoordinates = checkmateKingBlack.checkPiece(blackKingPosition[0],blackKingPosition[1],PieceColor.BLACK);
                         }
                         //black's move - then white's king may be in checkmate

@@ -143,4 +143,5 @@ public class Rook extends Piece {
     int[] isValidCapture(int row, int col, PieceColor color) {
         return null;
     }
+
 }
