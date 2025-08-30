@@ -642,9 +642,17 @@ public class MainCLI {
                                     //black king in check
                                     if (!checkmateKingBlack.canMove(blackKingPosition[0],blackKingPosition[1],PieceColor.BLACK)) {
 
-                                        //TODO: now have to check if blocking is possible
-                                        System.out.println("Black has been checkmated, except blocking");
-                                        //TODO: kxf7 does not work...
+                                        if (!checkmateKingBlack.canblockCheck(checkingPieceCoordinates[0], checkingPieceCoordinates[1],
+                                                board[checkingPieceCoordinates[0]][checkingPieceCoordinates[1]].p.color,
+                                                board[checkingPieceCoordinates[0]][checkingPieceCoordinates[1]].p.type,
+                                                blackKingPosition[0], blackKingPosition[1])) {
+                                            System.out.println("Black has been checkmated");
+
+                                            //TODO: FIX CHECK FUNCTION - make a new one with pawn moves instead of captures
+                                            //basically just call pawn can move inside the check function
+
+                                        }
+
 
                                     }
                                 }
@@ -666,11 +674,15 @@ public class MainCLI {
 
                                     if (!checkmateKingBlack.canMove(whiteKingPosition[0],whiteKingPosition[1], PieceColor.WHITE)) {
 
-                                        //TODO: now have to check if blocking is possible
-                                        System.out.println("White has been checkmated, except blocking");
+                                        if (!checkmateKingWhite.canblockCheck(checkingPieceCoordinates[0], checkingPieceCoordinates[1],
+                                                board[checkingPieceCoordinates[0]][checkingPieceCoordinates[1]].p.color,
+                                                board[checkingPieceCoordinates[0]][checkingPieceCoordinates[1]].p.type,
+                                                whiteKingPosition[0], whiteKingPosition[1])) {
+                                            System.out.println("White has been checkmated, except blocking");
 
-                                        //Make a list of legal moves...
-                                        //TODO: check if moves are legal, should return a list of moves that are acceptable
+                                        }
+
+
 
                                     }
 
@@ -1055,6 +1067,10 @@ public class MainCLI {
     //
 
     //TODO: need to write checkmate code!!!
+
+
+    //TODO: ENSURE THAT AFTER A MOVE THE KING IS NOT IN CHECK
+    //todo: new temp board version - check if the new move is fine...
 
 
 }

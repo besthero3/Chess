@@ -837,6 +837,276 @@ public class King extends Piece {
         return !(check(moveRow, moveCol, color));
     }
 
+    boolean blocking(int row, int col, PieceColor color) {
+
+        //<---------------------------------------HORIZONTAL/VERTICAL---------------------------------------->
+        //back up the board...
+        for(int i = row - 1; i >= 0; i--) {
+
+            if (row - 1 < 0) {
+                break;
+            }
+            //empty square
+            if (MainCLI.board[i][col].p != null && MainCLI.board[i][col].p.type != PieceType.NONE) {
+                if ((MainCLI.board[i][col].p.type == PieceType.ROOK || MainCLI.board[i][col].p.type == PieceType.QUEEN) && MainCLI.board[i][col].p.color != color) {
+                    return true;
+                }
+                //we found a different type of piece and we cannot jump over it because this is a rook
+                else {
+                    break;
+                }
+            }
+        }
+
+        //down the board
+        for (int i = row + 1; i < 8; i++) {
+
+            if (row + 1 > 7) {
+                break;
+            }
+
+            //this checks to make sure that the piece type is not none or null (there is a piece there)
+            //then we check to make sure it is of the opposite color
+            if (MainCLI.board[i][col].p != null && MainCLI.board[i][col].p.type != PieceType.NONE) {
+                if ((MainCLI.board[i][col].p.type == PieceType.ROOK || MainCLI.board[i][col].p.type == PieceType.QUEEN) && MainCLI.board[i][col].p.color != color) {
+                    return true;
+                }
+                //TODO: check that we cant jump over pieces but have to check correctly...
+                else {
+                    break;
+                }
+            }
+        }
+
+        //to the left
+        for (int i = col - 1; i >= 0; i--) {
+
+            if (col - 1 < 0) {
+                break;
+            }
+
+            if (MainCLI.board[row][i].p != null && MainCLI.board[row][i].p.type != PieceType.NONE) {
+                if ((MainCLI.board[row][i].p.type == PieceType.ROOK || MainCLI.board[row][i].p.type == PieceType.QUEEN) && MainCLI.board[row][i].p.color != color) {
+                    return true;
+                }
+                //we found a different type of piece and we cannot jump over it because this is a rook
+                else {
+                    break;
+                }
+            }
+        }
+
+        // to the right
+        for (int i = col + 1; i < 8; i++) {
+
+            if (col + 1 > 7) {
+                break;
+            }
+
+            if (MainCLI.board[row][i].p != null && MainCLI.board[row][i].p.type != PieceType.NONE) {
+                if ((MainCLI.board[row][i].p.type == PieceType.ROOK || MainCLI.board[row][i].p.type == PieceType.QUEEN) && MainCLI.board[row][i].p.color != color) {
+                    return true;
+                }
+                //we found a different type of piece and we cannot jump over it because this is a rook
+                else {
+                    break;
+                }
+            }
+        }
+        //<---------------------------------------HORIZONTAL/VERTICAL---------------------------------------->
+
+        //<---------------------------------KNIGHT-------------------------------------------->
+        //up
+        if (row >= 2) {
+            if (col > 0) {
+                if (MainCLI.board[row - 2][col - 1].p.type == PieceType.KNIGHT && MainCLI.board[row - 2][col - 1].p.color != color) {
+                    return true;
+                }
+            }
+            if(col < 7) {
+                if (MainCLI.board[row - 2][col + 1].p.type == PieceType.KNIGHT && MainCLI.board[row - 2][col + 1].p.color != color) {
+                    return true;
+                }
+            }
+        }
+
+        //down
+        if (row <= 5) {
+            if (col > 0) {
+
+                if (MainCLI.board[row + 2][col - 1].p.type == PieceType.KNIGHT && MainCLI.board[row + 2][col - 1].p.color != color) {
+                    return true;
+                }
+
+            }
+            if(col < 7) {
+                if (MainCLI.board[row + 2][col + 1].p.type == PieceType.KNIGHT && MainCLI.board[row + 2][col + 1].p.color != color) {
+                    return true;
+                }
+            }
+        }
+
+        //left
+        if (col >= 2) {
+            if (row > 0) {
+                if (MainCLI.board[row - 1][col - 2].p.type == PieceType.KNIGHT && MainCLI.board[row - 1][col - 2].p.color != color) {
+                    return true;
+                }
+            }
+            if(row < 7) {
+                if (MainCLI.board[row + 1][col - 2].p.type == PieceType.KNIGHT && MainCLI.board[row + 1][col - 2].p.color != color) {
+                    return true;
+                }
+            }
+        }
+
+        //right
+        if (col <= 5) {
+            if (row > 0) {
+                if (MainCLI.board[row - 1][col + 2].p.type == PieceType.KNIGHT && MainCLI.board[row - 1][col + 2].p.color != color) {
+                    return true;
+                }
+            }
+            if(row < 7) {
+                if (MainCLI.board[row + 1][col + 2].p.type == PieceType.KNIGHT && MainCLI.board[row + 1][col + 2].p.color != color) {
+                    return true;
+                }
+            }
+        }
+
+        //<----------------------KNIGHT------------------------------------------------->>>>>>
+
+
+        //<-------------------------DIAGONAL--------------------------------------------->
+        //row - 1, col -1. up left
+        if (row - 1 >= 0 && col - 1 >= 0) {
+            int j = col - 1;
+
+            for(int i = row - 1; i >= 0; i--) {
+                //error checking
+
+                if (j < 0) {
+                    break;
+                }
+
+                //if not an empty square
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
+
+                    //the piece type matches and the color matches the piece we are moving
+                    if ((MainCLI.board[i][j].p.type == PieceType.BISHOP || MainCLI.board[i][j].p.type == PieceType.QUEEN) && MainCLI.board[i][j].p.color != color) {
+                        return true;
+                    }
+                    //we found a different type of piece and we cannot jump over it because this is a rook
+                    else {
+                        break;
+                    }
+                }
+                j--;
+            }
+
+        }
+
+        //row - 1 col + 1. up right
+        if (row - 1 >= 0 && col + 1 < 8) {
+            int j = col + 1;
+
+            for(int i = row - 1; i >= 0; i--) {
+
+                if (j > 7) {
+                    break;
+                }
+
+                //if not an empty square
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
+
+                    //the piece type matches and the color matches the piece we are moving
+                    if ((MainCLI.board[i][j].p.type == PieceType.BISHOP || MainCLI.board[i][j].p.type == PieceType.QUEEN) && MainCLI.board[i][j].p.color != color) {
+                        return true;
+                    }
+                    //we found a different type of piece and we cannot jump over it because this is a rook
+                    else {
+                        break;
+                    }
+                }
+                j++;
+            }
+        }
+
+        //row + 1, col - 1. down left
+        if (row + 1 < 8 && col - 1 >= 0) {
+            int j = col - 1;
+
+            for(int i = row + 1; i < 8; i++) {
+
+                if (j < 0) {
+                    break;
+                }
+
+                //if not an empty square
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
+
+                    //the piece type matches and the color matches the piece we are moving
+                    if ((MainCLI.board[i][j].p.type == PieceType.BISHOP || MainCLI.board[i][j].p.type == PieceType.QUEEN) && MainCLI.board[i][j].p.color != color) {
+                        return true;
+                    }
+                    //we found a different type of piece and we cannot jump over it because this is a rook
+                    else {
+                        break;
+                    }
+                }
+                j--;
+            }
+        }
+
+        //row + 1, col + 1. down right
+        if (row + 1 < 8 && col + 1 < 8) {
+            int j = col + 1;
+
+            for(int i = row + 1; i < 8; i++) {
+
+                if (j > 7) {
+                    break;
+                }
+
+                //if not an empty square
+                if (MainCLI.board[i][j].p != null && MainCLI.board[i][j].p.type != PieceType.NONE) {
+
+                    //the piece type matches and the color matches the piece we are moving
+                    if ((MainCLI.board[i][j].p.type == PieceType.BISHOP || MainCLI.board[i][j].p.type == PieceType.QUEEN) && MainCLI.board[i][j].p.color != color) {
+                        return true;
+                    }
+                    //we found a different type of piece and we cannot jump over it because this is a rook
+                    else {
+                        break;
+                    }
+                }
+                j++;
+            }
+        }
+        //<-------------------------DIAGONAL--------------------------------------------->
+
+        //PAWN - opposites because check //todo: fix this
+        if (color == PieceColor.BLACK) {
+            Pawn blackPawn = new Pawn(PieceColor.BLACK);
+
+            //if there is a valid move to get there
+            if (blackPawn.isValidMove(row, col, PieceColor.BLACK,false)  != null) {
+                return true;
+            }
+        }
+        else if (color == PieceColor.WHITE) {
+            Pawn whitePawn = new Pawn(PieceColor.WHITE);
+
+            //if there is a valid move to get there
+            if (whitePawn.isValidMove(row, col, PieceColor.WHITE,false)  != null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
     //does our move block check
     boolean blockCheck(int checkingPieceRow, int checkingPieceCol, PieceColor checkingPieceColor,
                        PieceType checkingPieceType, int blockingSquareRow, int blockingSquareCol, int movingPieceRow,
@@ -900,7 +1170,7 @@ public class King extends Piece {
             //bottom right of king in terms of diags
             if (checkingPieceRow > kingRow && checkingPieceCol > kingCol) {
 
-                int j = checkingPieceCol + 1;
+                int j = kingCol + 1;
                 //starts on square diagnol bottom right of king
                 for(int i = kingRow + 1; i < checkingPieceRow; i++) {
 
@@ -917,7 +1187,7 @@ public class King extends Piece {
             //top left of king in terms of diags
             else if (checkingPieceRow < kingRow && checkingPieceCol < kingCol) {
 
-                int j = checkingPieceCol - 1;
+                int j = kingCol - 1;
                 //starts on square diagnol top left of king
                 for(int i = kingRow - 1; i > checkingPieceRow; i--) {
 
@@ -936,7 +1206,7 @@ public class King extends Piece {
             //row <
             else if (checkingPieceRow < kingRow && checkingPieceCol > kingCol) {
 
-                int j = checkingPieceCol + 1;
+                int j = kingCol + 1;
                 //starts on square diagnol bottom right of king
                 for(int i = kingRow - 1; i > checkingPieceRow; i--) {
 
@@ -955,11 +1225,199 @@ public class King extends Piece {
             //col <
             else if (checkingPieceRow > kingRow && checkingPieceCol < kingCol) {
 
-                int j = checkingPieceCol - 1;
+                int j = kingCol - 1;
                 //starts on square diagnol top left of king
                 for(int i = kingRow + 1; i < checkingPieceRow; i++) {
 
                     if (blockingSquareRow == i && blockingSquareCol == j) {
+                        return true;
+                    }
+
+                    if (j == checkingPieceCol || j <= 0 || i >= 7) {
+                        return false;
+                    }
+                    j--;
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+    //TODO: once i calculate the difference in a row or column...
+    //can check if each square in between is in check from the same color piece (so flip the colors)
+    //knights and pawns don't matter...
+    boolean canblockCheck(int checkingPieceRow, int checkingPieceCol, PieceColor checkingPieceColor,
+                       PieceType checkingPieceType, int kingRow, int kingCol) {
+
+        //prelim checking
+        if(checkingPieceType == PieceType.PAWN || checkingPieceType == PieceType.KNIGHT) {
+            return false;
+        }
+
+        boolean rookQueen = false;
+        boolean bishopQueen = false;
+
+        if (checkingPieceType == PieceType.QUEEN) {
+            //same row or col with a queen having check means has to be horizontal or vertical
+            if (checkingPieceRow == kingRow || checkingPieceCol == kingCol) {
+                rookQueen = true;
+            }
+            else {
+                bishopQueen = true;
+            }
+        }
+
+        if (checkingPieceType == PieceType.ROOK || rookQueen) {
+            //now we need to compare things:
+            //below the king
+            if (checkingPieceRow > kingRow) {
+
+                //TODO:
+                for (int i = kingRow + 1; i < checkingPieceRow; i++) {
+                    //iterate down the board toward the checking piece
+                    //want to know if intermediate piece can block - not the same color as the king
+                    //same color as the checking piece
+                    boolean inCheck = blocking(i, kingCol, checkingPieceColor);
+
+                    //in check in this case means that we can block bc the square is "in check"
+                    if (inCheck) {
+                        return true;
+                    }
+                }
+            }
+            //above the King
+            else if (checkingPieceRow < kingRow) {
+
+                //TODO:
+                for (int i = kingRow - 1; i > checkingPieceRow; i--) {
+                    //iterate down the board toward the checking piece
+                    //want to know if intermediate piece can block - not the same color as the king
+                    //same color as the checking piece
+                    boolean inCheck = blocking(i, kingCol, checkingPieceColor);
+
+                    //in check in this case means that we can block bc the square is "in check"
+                    if (inCheck) {
+                        return true;
+                    }
+                }
+            }
+            //same row
+            //different cols
+            //to the right
+            else if (checkingPieceCol > kingCol) {
+                //TODO:
+                for (int i = kingCol + 1; i < checkingPieceCol; i++) {
+                    //iterate down the board toward the checking piece
+                    //want to know if intermediate piece can block - not the same color as the king
+                    //same color as the checking piece
+                    boolean inCheck = blocking(kingRow, i, checkingPieceColor);
+
+                    //in check in this case means that we can block bc the square is "in check"
+                    if (inCheck) {
+                        return true;
+                    }
+                }
+            }
+            //to the left
+            else if (checkingPieceCol < kingCol) {
+                for (int i = kingCol - 1; i > checkingPieceCol; i--) {
+                    //iterate down the board toward the checking piece
+                    //want to know if intermediate piece can block - not the same color as the king
+                    //same color as the checking piece
+                    boolean inCheck = blocking(kingRow, i, checkingPieceColor);
+
+                    //in check in this case means that we can block bc the square is "in check"
+                    if (inCheck) {
+                        return true;
+                    }
+                }
+            }
+
+
+        }
+        else if (checkingPieceType == PieceType.BISHOP || bishopQueen) {
+            //do four quadrents bc we know its check
+            //have to figure out how to do the inbetween
+            //has to be an equal amount between the squares
+            //like + i for both or smth... calc the difference and iterate?
+
+            //bottom right of king in terms of diags
+            if (checkingPieceRow > kingRow && checkingPieceCol > kingCol) {
+
+                int j = kingCol + 1;
+                //starts on square diagnol bottom right of king
+                for(int i = kingRow + 1; i < checkingPieceRow; i++) {
+
+                    boolean inCheck = blocking(i, j, checkingPieceColor);
+
+                    //in check in this case means that we can block bc the square is "in check"
+                    if (inCheck) {
+                        return true;
+                    }
+
+                    if (j == checkingPieceCol || j >= 7 || i >= 7) {
+                        return false;
+                    }
+                    j++;
+                }
+            }
+            //top left of king in terms of diags
+            else if (checkingPieceRow < kingRow && checkingPieceCol < kingCol) {
+
+                int j = kingCol - 1;
+                //starts on square diagnol top left of king
+                for(int i = kingRow - 1; i > checkingPieceRow; i--) {
+
+                    boolean inCheck = blocking(i, j, checkingPieceColor);
+
+                    //in check in this case means that we can block bc the square is "in check"
+                    if (inCheck) {
+                        return true;
+                    }
+
+                    if (j == checkingPieceCol || j <= 0 || i <= 0) {
+                        return false;
+                    }
+                    j--;
+                }
+            }
+            //top right of king in terms of diags
+            // col >
+            //row <
+            else if (checkingPieceRow < kingRow && checkingPieceCol > kingCol) {
+
+                int j = kingCol + 1;
+                //starts on square diagnol bottom right of king
+                for(int i = kingRow - 1; i > checkingPieceRow; i--) {
+
+                    boolean inCheck = blocking(i, j, checkingPieceColor);
+
+                    //in check in this case means that we can block bc the square is "in check"
+                    if (inCheck) {
+                        return true;
+                    }
+
+                    if (j == checkingPieceCol || j >= 7 || i <= 0) {
+                        return false;
+                    }
+                    j++;
+                }
+            }
+            //bottom left
+            //row >
+            //col <
+            else if (checkingPieceRow > kingRow && checkingPieceCol < kingCol) {
+
+                int j = kingCol - 1;
+                //starts on square diagnol top left of king
+                for(int i = kingRow + 1; i < checkingPieceRow; i++) {
+
+                    boolean inCheck = blocking(i, j, checkingPieceColor);
+
+                    //in check in this case means that we can block bc the square is "in check"
+                    if (inCheck) {
                         return true;
                     }
 
@@ -1002,6 +1460,7 @@ public class King extends Piece {
 
 
 }
+
 
 //if king wants to move to a square or capture
 //check if that square is in check
