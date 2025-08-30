@@ -802,6 +802,23 @@ public class King extends Piece {
         return false;
     }
 
+    boolean canCaptureOutOfCheck(int kingRow, int kingCol, int checkPieceRow, int checkPieceCol, PieceColor kingColor) {
+
+        //check if (kingRow + | - 1 = checkRow) && (kingCol + | - 1 = checkCol)
+        //that checks if the king is next to it -
+        //then check if the checking piece square in check...
+        //if it is then put false, if not then put true
+
+        //
+        if ((kingRow + 1 == checkPieceRow || kingRow - 1 == checkPieceRow) && (kingCol + 1 == checkPieceCol || kingCol - 1 == checkPieceCol)) {
+            //sees if the square is in "check" - guarded by anything... thats why we pass in the same color as the king
+            //if the square is in "check" (guarded), then the king can not capture it... otherwise the king can
+            return !check(checkPieceRow,checkPieceCol, kingColor);
+        }
+
+        return false;
+    }
+
     //checks is our move gets us out of a check by capturing
     //pre: the move has already been validated
     //only thing it has not been validated for is if the move causes a check...

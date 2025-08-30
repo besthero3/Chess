@@ -617,10 +617,22 @@ public class MainCLI {
                                 //TODO: DO THE SAME FOR THE OTHER things - blocking and check if that is the move
                                 //TODO: capture and move check against and disable check...
                                 //TODO: - this code does not run if the king is in check so i need a way around it...
-                                int[] kingCaptureCheckingPiece = checkmateKingBlack.isValidMove(checkingPieceCoordinates[0],checkingPieceCoordinates[1],PieceColor.WHITE,true);
+                                //looking from the white checking piece to the black checking piece
+                                //int[] kingCaptureCheckingPiece = checkmateKingBlack.isValidMove(checkingPieceCoordinates[0],checkingPieceCoordinates[1],PieceColor.WHITE,true);
+
+                                //TODO: make sure we are updating king position
+                                boolean kingCaptures = checkmateKingBlack.canCaptureOutOfCheck(blackKingPosition[0], blackKingPosition[1], checkingPieceCoordinates[0],
+                                        checkingPieceCoordinates[1], PieceColor.BLACK);
+
+                                //should call a modified version of can we capture the piece on that square...
+                                //have checking piece coordinates
+                                //check if (kingRow + | - 1 = checkRow) && (kingCol + | - 1 = checkCol)
+                                //that checks if the king is next to it -
+                                //then check if the checking piece square in check...
+                                //if it is then put false, if not then put true
 
                                 //CPR - can't capture
-                                if (!captureCheckingPiece && kingCaptureCheckingPiece == null) {
+                                if (!captureCheckingPiece && !kingCaptures) {
                                     //TODO: need to do another board check - to make sure that the piece is pinned
                                     //TODO: complete when the other board check is added
 
@@ -641,10 +653,14 @@ public class MainCLI {
                             else {
                                 boolean captureCheckingPiece = checkmateKingWhite.check(checkingPieceCoordinates[0],checkingPieceCoordinates[1],PieceColor.BLACK);
 
-                                int[] kingCaptureCheckingPiece = checkmateKingBlack.isValidMove(checkingPieceCoordinates[0],checkingPieceCoordinates[1],PieceColor.BLACK,true);
+                                //int[] kingCaptureCheckingPiece = checkmateKingBlack.isValidMove(checkingPieceCoordinates[0],checkingPieceCoordinates[1],PieceColor.BLACK,true);
 
+                                //TODO: make sure we are updating king position
+                                boolean kingCaptures = checkmateKingWhite.canCaptureOutOfCheck(whiteKingPosition[0], whiteKingPosition[1], checkingPieceCoordinates[0],
+                                        checkingPieceCoordinates[1], PieceColor.WHITE);
                                 //CPR - can't capture
-                                if (!captureCheckingPiece && kingCaptureCheckingPiece == null) {
+                                //TODO: CAPTURE ALGO IS BROKEN - just need to check whether the piece can be captured - incuding by king
+                                if (!captureCheckingPiece && !kingCaptures) {
                                     //TODO: need to do another board check - to make sure that the piece is pinned
                                     //TODO: complete when the other board check is added
 
