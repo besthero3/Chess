@@ -1,3 +1,6 @@
+/**
+ * Represents a square in a board
+ * */
 public class Square {
 
     boolean empty = true;

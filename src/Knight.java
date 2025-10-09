@@ -109,8 +109,4 @@ public class Knight extends Piece {
 
         return null;
     }
-
-    int[] isValidCapture(int row, int col, PieceColor color) {
-        return null;
-    }
 }

@@ -1,5 +1,6 @@
-import com.sun.tools.javac.Main;
-
+/**
+ * Represents a pawn piece
+ * */
 public class Pawn extends Piece {
 
     boolean firstMove;
@@ -9,6 +10,9 @@ public class Pawn extends Piece {
         this.firstMove = true;
     }
 
+    /**
+     * Checks if a pawn's move is valid
+     * */
     @Override
     int[] isValidMove(int row, int col, PieceColor color, boolean captures) {
 
@@ -22,10 +26,8 @@ public class Pawn extends Piece {
 
         //COULD JUST CHECK IF THE PAWN IS ON 2ND RANK??? - THERE SHOULD BE A WAY TO HAVE AN ATTRIBUTE THO...
         //piece have attribute...
-        //TODO:
         if (color == PieceColor.BLACK) {
             //check if two squares back
-            //TODO; may want error checking here... - e3?
             //have to check one square back first
             if (MainCLI.board[row - 1][col].p.type == PieceType.PAWN && MainCLI.board[row - 1][col].p.color == PieceColor.BLACK) {
                 pieceCoordinates[0] = row - 1;

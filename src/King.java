@@ -4,21 +4,20 @@ public class King extends Piece {
         super(color, PieceType.KING);
     }
 
-    //TODO: have to fix all of the errors in this class - mainly with bishop and rook and queen things
 
+    /**
+    * Checks if a king's move is valid
+     * */
     @Override
-    //TODO: SHOULD CHECK IF NOT IN CHECK?
     int[] isValidMove(int row, int col, PieceColor color, boolean captures) {
 
         int[] pieceCoordinates = new int[2];
-        //check one in every direction from row and col
 
         //only need to check this captures
         if (captures) {
             //no piece there
             if (MainCLI.board[row][col].p == null) {
                 return null;
-                //need to wrap this because i want to avoid a null pointer error
             }
             else {
                 //can't take a piece that is the same color as your piece
@@ -117,14 +116,10 @@ public class King extends Piece {
         return null;
     }
 
-    int[] isValidCapture(int row, int col, PieceColor color) {
-        return null;
-    }
 
-
-    //check function
-    //need square to iterate from, int row, int col, (store where king is),
-    //want color to be not equal to if we are checking for a check and then return true...
+    /**
+     * Checks if a king/square is in check
+     * */
     boolean check(int row, int col, PieceColor color) {
 
         //<---------------------------------------HORIZONTAL/VERTICAL---------------------------------------->
@@ -159,7 +154,6 @@ public class King extends Piece {
                 if ((MainCLI.board[i][col].p.type == PieceType.ROOK || MainCLI.board[i][col].p.type == PieceType.QUEEN) && MainCLI.board[i][col].p.color != color) {
                     return true;
                 }
-                //TODO: check that we cant jump over pieces but have to check correctly...
                 else {
                     break;
                 }
@@ -406,9 +400,10 @@ public class King extends Piece {
         return false;
     }
 
-    //going to return a row, col for where the piece is...
-    //then see if square is in check...
-    //TODO: NEED TO CHECK IF THE KING CAN TAKE A PIECE TOO
+
+    /**
+     * Checks whether a piece can be captured (is in check) by any piece
+    */
     int[] checkPiece(int row, int col, PieceColor color) {
         int[] pieceCoordinates = new int[2];
 
@@ -729,6 +724,9 @@ public class King extends Piece {
         return null;
     }
 
+    /**
+     * Can move checks if king has a valid move
+     * */
     boolean canMove(int row, int col, PieceColor color) {
         //have to check if the king can move
         //write a can move function, is there a square that is NOT empty, not in check, around the king
@@ -802,6 +800,9 @@ public class King extends Piece {
         return false;
     }
 
+    /**
+     * Can move checks if a piece can capture
+     * */
     boolean canCaptureOutOfCheck(int kingRow, int kingCol, int checkPieceRow, int checkPieceCol, PieceColor kingColor) {
 
         //check if (kingRow + | - 1 = checkRow) && (kingCol + | - 1 = checkCol)
@@ -809,7 +810,6 @@ public class King extends Piece {
         //then check if the checking piece square in check...
         //if it is then put false, if not then put true
 
-        //
         if ((kingRow + 1 == checkPieceRow || kingRow - 1 == checkPieceRow) && (kingCol + 1 == checkPieceCol || kingCol - 1 == checkPieceCol)) {
             //sees if the square is in "check" - guarded by anything... thats why we pass in the same color as the king
             //if the square is in "check" (guarded), then the king can not capture it... otherwise the king can
@@ -819,9 +819,9 @@ public class King extends Piece {
         return false;
     }
 
-    //checks is our move gets us out of a check by capturing
-    //pre: the move has already been validated
-    //only thing it has not been validated for is if the move causes a check...
+    /**
+     * Checks if a piece can capture
+     * */
     boolean captureOutOfCheck(int moveRow, int moveCol, PieceType movePieceType, int checkPieceRow, int checkPieceCol, PieceColor color) {
 
         //can simply call is valid for each of these I think
@@ -832,11 +832,17 @@ public class King extends Piece {
         return false;
     }
 
+    /**
+     * Checks if a king can be capture out of check
+     * */
     boolean moveOutOfCheck(int moveRow, int moveCol, PieceColor color) {
         //if that square is in check then we can't move out of it
         return !(check(moveRow, moveCol, color));
     }
 
+    /**
+     * Checks if a check can be blocked
+     * */
     boolean blocking(int row, int col, PieceColor color) {
 
         //<---------------------------------------HORIZONTAL/VERTICAL---------------------------------------->
@@ -871,7 +877,6 @@ public class King extends Piece {
                 if ((MainCLI.board[i][col].p.type == PieceType.ROOK || MainCLI.board[i][col].p.type == PieceType.QUEEN) && MainCLI.board[i][col].p.color != color) {
                     return true;
                 }
-                //TODO: check that we cant jump over pieces but have to check correctly...
                 else {
                     break;
                 }
@@ -1107,7 +1112,9 @@ public class King extends Piece {
     }
 
 
-    //does our move block check
+    /**
+     * Checks if a check can be blocked by the piece being moved
+     * */
     boolean blockCheck(int checkingPieceRow, int checkingPieceCol, PieceColor checkingPieceColor,
                        PieceType checkingPieceType, int blockingSquareRow, int blockingSquareCol, int movingPieceRow,
                        int movingPieceCol, PieceType movingPieceType, PieceColor movingPieceColor, int kingRow, int kingCol) {
@@ -1245,9 +1252,9 @@ public class King extends Piece {
 
     }
 
-    //TODO: once i calculate the difference in a row or column...
-    //can check if each square in between is in check from the same color piece (so flip the colors)
-    //knights and pawns don't matter...
+    /**
+     * Checks if any piece can block the check
+     * */
     boolean canblockCheck(int checkingPieceRow, int checkingPieceCol, PieceColor checkingPieceColor,
                        PieceType checkingPieceType, int kingRow, int kingCol) {
 
@@ -1433,60 +1440,4 @@ public class King extends Piece {
 
     }
 
-    /*
-    * if (movePieceType == PieceType.ROOK) {
-
-        }
-        else if (movePieceType == PieceType.KNIGHT) {
-
-        }
-        else if (movePieceType == PieceType.BISHOP) {
-
-        }
-        else if (movePieceType == PieceType.QUEEN) {
-
-        }
-        else if (movePieceType == PieceType.KING) {
-
-        }
-        else if (movePieceType == PieceType.PAWN) {
-
-        }
-    *
-    *
-    *
-    *
-    * */
-
-
 }
-
-
-//if king wants to move to a square or capture
-//check if that square is in check
-//iterate in each direction to find a piece that could check...
-//opposite color and can move means the king is in check
-//if that squarer is in check then cant move or capture to it
-//have to do all nine directions and knight moves
-//make sure to check board boundaries
-//check method should take a square
-//move method should call chekc method and check if king is aorund the 9 squares
-//todo track king position in MainCLI class - so then can just know where it is...
-
-//For checking for check on each turn
-//check if move is valid first, then make a copy of the board with the move on it...
-//pass an array of type squares to function
-//modify that array (arrays are passed by reference so should modify the original as well)
-//make the "valid" move in that array...
-//check the king whose turn it was first... - white turn check white king - ensure that the king is not in check
-//if the king is in check then revert the move
-//if king is not in check - then edit the original board using the move function
-//then check Black's king and see if they are in check... - if they are output a message letting them know
-
-//TODO: am I going to enforce proper notation with + and # for check and mate?
-//TODO: need to decide how I would like to handle checkmate chekcing
-//if check - check for possible moves - if find one//
-//could start with iterate from checking piece and look for captures
-//iterate from squares between the piece and king and look for blocks
-//then check moves?
-
