@@ -1,11 +1,18 @@
-Start of Chess Project: Currently starting Phase 1
-Goal: Finish Phase One by June 4th
+Description:
+Chess Engine which currently enforces game rules and evaluates when the game has been completed
+(another player has been Checkmated).
 
-Phase 1: Java CLI Chess
-Phase 2: JavaFX GUI Application
-Phase 3: Set up a Website / Link database
-Phase 4: Write Frontend for website and start hosting Chess on it
-Phase 5: Connect Database to backend code
-Phase 6: Use pandas to do some Chess data analysis and put results on website (Do general data analysis and do some from the website)
-Phase 7: Train model off my games using pytorch
+Future Plans:
 
+Castling/Promotion/En Passant - Adding more advanced rules.
+
+Choice Menu - A player can choose to play a game, set up a board, or do tactics.
+
+Board Setup - A player can set up a board by using an FEN code, which this program will then process.
+
+Tactics Trainer - Want to implement a tactics trainer which utilizes a database. The trainer would have positions from
+my personal tournament games and provide users with ratings depending on their performance. The trainer could also
+provide players with feedback on what they could do to improve depending on their tactic performances.
+
+Known Bugs
+Discovered Checks may sometimes not register correctly

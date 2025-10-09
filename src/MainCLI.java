@@ -6,6 +6,7 @@ public class MainCLI {
 
     //Todo: NEED TO FIX TYPE - None is a better type than making everything NULL
 
+    //king has moved - also has temporary situations not covered
     boolean whiteCanCastle = true;
     boolean blackCanCastle = true;
     static int whiteMoveCount = 0;
