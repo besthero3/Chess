@@ -16,6 +16,5 @@ provide players with feedback on what they could do to improve depending on thei
 
 Known Bugs
 Discovered Checks may sometimes not register correctly
-Moves that place the king in check are currently not validated and they need to be
 
 Resources
