@@ -2,7 +2,7 @@ Description:
 Chess Engine which currently enforces game rules and evaluates when the game has been completed
 (another player has been Checkmated).
 
-Future Plans:
+Possible Future Ideas:
 
 Castling/Promotion/En Passant - Adding more advanced rules.
 
